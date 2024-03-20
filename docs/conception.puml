@@ -1,0 +1,57 @@
+@startuml TronGame
+
+class Vehicule implements Trainee{
+    Integer Vitesse
+    Integer VieBase
+    Integer Vie
+}
+
+interface Trainee{
+    Duree
+    Couleur
+    Largeur
+}
+
+class Structure{
+    PositionX
+    PositionY
+    Height
+    Width
+}
+
+class Tremplin extends Structure{
+    getSaut()
+}
+
+class Murs extends Structure{
+    degat()
+}
+
+class Objet{
+    Position
+    Image
+}
+
+class BonusVitesse extends Objet implements Bonus{
+
+}
+
+class MalusVitesse extends Objet implements Malus{
+
+}
+
+class BonusInvincibilité extends Objet implements Bonus{
+
+}
+
+class MalusTrainee extends Objet implements Malus {
+
+}
+
+interface Bonus{
+    getHalo()
+}
+
+interface Malus{
+    getHalo()
+}
