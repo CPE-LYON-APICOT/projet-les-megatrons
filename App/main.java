@@ -1,7 +1,11 @@
 package App;
 
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -12,6 +16,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.animation.AnimationTimer;
+import javafx.util.Duration;
+
 public class main extends Application {
     private Button bouton;
     Integer direction = 1;
@@ -58,6 +64,16 @@ public class main extends Application {
 
         double deplacement = 3;
 
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.2), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                CV.clear();
+            }
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+
 
         scene.setOnKeyReleased(event -> {
             if (event.getCode() == KeyCode.Z) {
@@ -65,35 +81,43 @@ public class main extends Application {
                 if (rotate == 1){
                     moto.switchDirection();
                     rotate = 2;
-                    moto.addLastCoord();
+                    CV.setRotate(0.0);
                 }
+                moto.addLastCoord();
+
             } else if (event.getCode() == KeyCode.S) {
                 direction = 2;
                 if (rotate == 1){
                     moto.switchDirection();
                     rotate = 2;
-                    moto.addLastCoord();
+                    CV.setRotate(1.0);
 
                 }
+                moto.addLastCoord();
+
             } else if (event.getCode() == KeyCode.Q) {
                 direction = 3;
                 if (rotate == 2){
                     moto.switchDirection();
                     rotate = 1;
-                    moto.addLastCoord();
+                    CV.setRotate(2.0);
 
                 }
+                moto.addLastCoord();
+
             } else if (event.getCode() == KeyCode.D) {
                 direction = 4;
                 if (rotate == 2){
                     moto.switchDirection();
                     rotate = 1;
-                    moto.addLastCoord();
-
+                    CV.setRotate(3.0);
                 }
+                moto.addLastCoord();
+
             }else if(event.getCode() == KeyCode.B){
                 CV.clear();
             }
+           // CV.start();
         });
 
         AnimationTimer timer = new AnimationTimer() {
@@ -140,8 +164,6 @@ public class main extends Application {
                 rectangle.setLayoutX(rectangle.getLayoutX() + deplacement);
             }
         });*/
-
-        CV.start();
         primaryStage.setScene(scene);
         primaryStage.show();
     }
