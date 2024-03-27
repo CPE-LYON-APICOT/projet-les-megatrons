@@ -22,6 +22,7 @@ public class main extends Application {
 
         //Rectangle rectangle = new Rectangle(50, 10, Color.RED);
         Moto moto = new Moto(100,100,1,1,50,new Rectangle(50,10,Color.BLUE) );
+        Moto moto = new createVehicule("Moto");
         //moto.rectangle
 
         moto.rectangle.setLayoutX(100);
