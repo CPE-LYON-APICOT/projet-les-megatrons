@@ -4,9 +4,10 @@ package App;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
@@ -19,20 +20,37 @@ public class main extends Application {
     public void start(Stage primaryStage) {
         System.out.println("Start la page");
 
+        Rectangle border = new Rectangle(1080, 720);
+        border.setStroke(Color.web("#ff4467"));
+        border.setFill(Color.TRANSPARENT);
+        border.setStrokeWidth(10);
+
+        Image backgroundImage = new Image("file:assets/Background.jpg");
+
+        ImageView backgroundImageView = new ImageView(backgroundImage);
+        backgroundImageView.fitWidthProperty().bind(primaryStage.widthProperty());
+        backgroundImageView.fitHeightProperty().bind(primaryStage.heightProperty());
+
 
         //Rectangle rectangle = new Rectangle(50, 10, Color.RED);
-        Moto moto = new Moto(100,100,1,1,50,new Rectangle(50,10,Color.BLUE) );
-        Moto moto = new createVehicule("Moto");
-        //moto.rectangle
+        VehiculeFactory VF = new VehiculeFactory();
+        Moto moto = (Moto) VF.CreateVehicule(VehiculeType.MOTO);
 
-        moto.rectangle.setLayoutX(100);
+        moto.rectangle.setLayoutX(moto.PositionX);
 
-        moto.rectangle.setLayoutY(100);
+        moto.rectangle.setLayoutY(moto.PositionY);
 
         Pane root = new Pane();
-        root.getChildren().add(moto.rectangle);
+        Pane Trainer = new Pane();
+        ControllerVehicule CV = new ControllerVehicule(moto, Trainer);
 
-        Scene scene = new Scene(root, 1080, 720);
+        root.getChildren().add(backgroundImageView);
+        root.getChildren().add(moto.rectangle);
+        root.getChildren().add(border);
+
+
+        Scene scene = new Scene(new Pane(), 1080, 720);
+        ((Pane) scene.getRoot()).getChildren().addAll(root, Trainer);
 
 
         primaryStage.setResizable(false);
@@ -47,25 +65,34 @@ public class main extends Application {
                 if (rotate == 1){
                     moto.switchDirection();
                     rotate = 2;
+                    moto.addLastCoord();
                 }
             } else if (event.getCode() == KeyCode.S) {
                 direction = 2;
                 if (rotate == 1){
                     moto.switchDirection();
                     rotate = 2;
+                    moto.addLastCoord();
+
                 }
             } else if (event.getCode() == KeyCode.Q) {
                 direction = 3;
                 if (rotate == 2){
                     moto.switchDirection();
                     rotate = 1;
+                    moto.addLastCoord();
+
                 }
             } else if (event.getCode() == KeyCode.D) {
                 direction = 4;
                 if (rotate == 2){
                     moto.switchDirection();
                     rotate = 1;
+                    moto.addLastCoord();
+
                 }
+            }else if(event.getCode() == KeyCode.B){
+                CV.clear();
             }
         });
 
@@ -75,17 +102,25 @@ public class main extends Application {
                 switch (direction) {
                     case 1:
                         moto.rectangle.setLayoutY(moto.rectangle.getLayoutY() - deplacement);
+                        moto.addPositionY(-deplacement);
                         break;
+
                     case 2:
                         moto.rectangle.setLayoutY(moto.rectangle.getLayoutY() + deplacement);
+                        moto.addPositionY(deplacement);
                         break;
+
                     case 3:
                         moto.rectangle.setLayoutX(moto.rectangle.getLayoutX() - deplacement);
+                        moto.addPositionX(-deplacement);
                         break;
+
                     case 4:
                         moto.rectangle.setLayoutX(moto.rectangle.getLayoutX() + deplacement);
+                        moto.addPositionX(deplacement);
                         break;
                 }
+                CV.drawLine();
             }
         };
         timer.start();
@@ -106,6 +141,7 @@ public class main extends Application {
             }
         });*/
 
+        CV.start();
         primaryStage.setScene(scene);
         primaryStage.show();
     }
