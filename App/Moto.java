@@ -1,47 +1,74 @@
 package App;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Moto extends Vehicule{
-    private int LargeurMoto = 50;
-    private int HauteurMoto = 50;
-    //private Rectangle rectangle = new Rectangle(50, 10, Color.RED);
-
-
-    public Moto(int positionX, int positionY, int ptsVieBase, int ptsVie, int TDuree, Rectangle rectangle, double vitesseTrainee) {
-        super(positionX, positionY, ptsVieBase, ptsVie, TDuree, rectangle);
-        this.VitesseTrainee = vitesseTrainee;
-    }
-
-    public Rectangle getRectangle(){
-        return new Rectangle(TLargeur,TLongueur,TCouleur);
-    }
-    public void switchDirection(){
-        System.out.println("SwitchDirection");
-        int Largeur = (int) this.rectangle.getWidth();
-        int Longueur = (int) this.rectangle.getHeight();
-        this.rectangle.setHeight(Largeur);
-        this.rectangle.setWidth(Longueur);
+    private int MotoHeight = 50;
+    private int MotoWidth = 50;
+    private double VitesseTrainee;
+    public Moto(int PositionX, int PositionY, int PtsVieBase, int PtsVie, String LienImage, Double VitesseTrainee) {
+        super(PositionX, PositionY, PtsVieBase, PtsVie, LienImage, VitesseTrainee);
     }
 
     @Override
-    public double getPositionX() {
-        double rotate = super.getRotate();
-        if (rotate == 0.0) {
-            return PositionX + 5;
-        } else {
-            return PositionX + 5;
+    public double getPositionTrainerY() {
+        /*System.out.println("------");
+        System.out.println(MotoWidth);
+        System.out.println(PositionX + (MotoWidth / 2));
+        System.out.println("------");
+        System.out.println(PanelImage.getHeight() / 2);*/
+
+        switch ((int) rotate){
+            case 0:
+                return (getPositionY() + PanelImage.getWidth() /2);
+            case 1:
+                return (getPositionY() + PanelImage.getWidth() /2);
+            case 2:
+                return (getPositionY() + PanelImage.getHeight() /2);
+            case 3:
+                return (getPositionY() + PanelImage.getHeight() /2);
         }
+        return PositionY;
+    }
+
+    public double getPositionTrainerX() {
+        /*System.out.println("------");
+        System.out.println(MotoWidth);
+        System.out.println(PositionX + (MotoWidth / 2));
+        System.out.println("------");
+        System.out.println(PanelImage.getHeight() / 2);*/
+
+        switch ((int) rotate){
+            case 0:
+                return (getPositionX() + PanelImage.getWidth() /2);
+            case 1:
+                return (getPositionX() + PanelImage.getWidth() /2);
+            case 2:
+                return (getPositionX() + PanelImage.getHeight() /2);
+            case 3:
+                return (getPositionX() + PanelImage.getHeight() /2);
+        }
+        return PositionX;
     }
 
     @Override
-    public double getPositionY() {
-        double rotate = super.getRotate();
-        if (rotate == 2.0) {
-            return PositionY - 5;
-        } else {
-            return PositionY + 5;
-        }
+    public void addLastCoord() {
+        System.out.println("Ajout de coordonée");
+        Tcoords.get(Tcoords.size() - 1).add(getPositionTrainerX());
+        Tcoords.get(Tcoords.size() - 1).add(getPositionTrainerY());
+        System.out.println("J'ajoute le rotate : " + rotate);
+        Tcoords.add(new ArrayList<>(Arrays.asList(rotate, getPositionTrainerX(), getPositionTrainerY())));
+    }
+
+    @Override
+    public int getHeight() {
+        return MotoHeight;
+    }
+
+    @Override
+    public int getWidth() {
+        return MotoWidth;
     }
 }

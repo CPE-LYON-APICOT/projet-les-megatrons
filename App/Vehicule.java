@@ -1,78 +1,128 @@
 package App;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.Pane;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Arrays;
 
 
-public class Vehicule {
+public abstract class Vehicule {
     protected double PositionX;
     protected double PositionY;
     protected int PtsVieBase;
     protected int PtsVie;
-    protected int TDuree;
-    protected int TLargeur;
-    protected  int TLongueur;
-    protected Color TCouleur;
-    protected Rectangle rectangle;
-    protected double VitesseTrainee;
-    private double rotate = 0.0;
-    // 0 haut, 1 bas, 2 droite, 3 gauche
+    protected Pane PanelImage;
+    protected double rotate = -1.0;
+    private double VitesseTrainee;
+    protected List<List<Double>> Tcoords = new ArrayList<List<Double>>();
+    private int angle = 0;
+    protected String SourcePNG;
 
-    protected List<List<Double>> Tcoords;
+    public Vehicule(double PositionX, double PositionY, int PtsVieBase, int PtsVie, String LienImage, Double VitesseTrainee) {
+        this.PositionX = PositionX;
+        this.PositionY = PositionY;
+        this.PtsVieBase = PtsVieBase;
+        this.PtsVie = PtsVie;
+        this.SourcePNG = LienImage;
+        this.VitesseTrainee = VitesseTrainee;
 
-    public Vehicule(int positionX, int positionY, int ptsVieBase, int ptsVie, int TDuree,Rectangle rectangle) {
-        PositionX = positionX;
-        PositionY = positionY;
-        PtsVieBase = ptsVieBase;
-        PtsVie = ptsVie;
-        this.TDuree = TDuree;
-        this.rectangle = rectangle;
-
-        Tcoords = new ArrayList<List<Double>>();
-        List<Double> Coord = new ArrayList<Double>();
-        Coord.add(rotate);
-        Coord.add(PositionX);
-        Coord.add(PositionY);
-        Tcoords.add(Coord);
     }
 
-    public void addLastCoord(){
-        System.out.println("Ajout de coordonée");
-        Tcoords.get(Tcoords.size() - 1).add(PositionX);
-        Tcoords.get(Tcoords.size() - 1).add(PositionY);
-        System.out.println("J'ajoute le rotate : " + rotate);
-        Tcoords.add(new ArrayList<>(Arrays.asList(rotate, PositionX, PositionY)));
+    public Vehicule() {
+
+    }
+
+
+    public void addLastCoord() {
+    }
+
+    public double getVitesseTrainee() {
+        return VitesseTrainee;
+    }
+
+    public double getRotate() {
+        return this.rotate;
+    }
+
+    public void setRotate(double Rotate){
+        this.rotate = Rotate;
+    }
+
+    public int getHeight(){ return 0; }
+
+    public int getWidth(){
+        return 0;
     }
 
     public double getPositionX() {
         return PositionX;
     }
 
-    public void addPositionX(double positionX) {
-        PositionX = PositionX + positionX;
+    public void setPositionX(double positionX) {
+        PositionX = positionX;
     }
+
+    public double getPositionTrainerX() {
+        return PositionY;
+    };
+
+    public double getPositionTrainerY() {
+        return PositionX;
+    };
 
     public double getPositionY() {
         return PositionY;
     }
 
-    public void addPositionY(double positionY) {
-        PositionY = PositionY + positionY;
-    }
-    public double getVitesseTrainee(){
-        return VitesseTrainee;
+    public void setPositionY(double positionY) {
+        PositionY = positionY;
     }
 
-    public double getRotate() {
-        return rotate;
+    public void genCoord(){
+        List<Double> Coord = new ArrayList<Double>();
+        Coord.add(rotate);
+        Coord.add(getPositionTrainerX());
+        Coord.add(getPositionTrainerY());
+        Tcoords.add(Coord);
     }
 
-    public void setRotate(double rotatee) {
-        System.out.println("Je set rotate");
-        this.rotate = rotatee;
+    public Pane getPanelImage() {
+        return PanelImage;
+    }
+
+    public void setPanelImage(Pane panelImage) {
+        PanelImage = panelImage;
+    }
+
+    public int getPtsVieBase() {
+        return PtsVieBase;
+    }
+
+    public void setPtsVieBase(int ptsVieBase) {
+        PtsVieBase = ptsVieBase;
+    }
+
+    public int getPtsVie() {
+        return PtsVie;
+    }
+
+    public void setPtsVie(int ptsVie) {
+        PtsVie = ptsVie;
+    }
+
+    public void syncImage() {
+        switch ((int) rotate){
+            case 0:
+                PanelImage.setRotate(180);
+                break;
+            case 1:
+                PanelImage.setRotate(360);
+                break;
+            case 2:
+                PanelImage.setRotate(90);
+                break;
+            case 3:
+                PanelImage.setRotate(260);
+                break;
+        }
     }
 }
