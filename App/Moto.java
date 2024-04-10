@@ -25,4 +25,23 @@ public class Moto extends Vehicule{
         this.rectangle.setWidth(Longueur);
     }
 
+    @Override
+    public double getPositionX() {
+        double rotate = super.getRotate();
+        if (rotate == 0.0) {
+            return PositionX + 5;
+        } else {
+            return PositionX + 5;
+        }
+    }
+
+    @Override
+    public double getPositionY() {
+        double rotate = super.getRotate();
+        if (rotate == 2.0) {
+            return PositionY - 5;
+        } else {
+            return PositionY + 5;
+        }
+    }
 }

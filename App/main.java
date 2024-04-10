@@ -60,7 +60,7 @@ public class main extends Application {
 
 
         primaryStage.setResizable(false);
-        primaryStage.setTitle("Hello JavaFX");
+        primaryStage.setTitle("Jeu Tron");
 
         double deplacement = 3;
 
@@ -74,55 +74,55 @@ public class main extends Application {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-
-        scene.setOnKeyReleased(event -> {
-            if (event.getCode() == KeyCode.Z) {
-                direction = 1;
-                if (rotate == 1){
-                    moto.switchDirection();
-                    rotate = 2;
-                    CV.setRotate(0.0);
-                }
-                moto.addLastCoord();
-
-            } else if (event.getCode() == KeyCode.S) {
-                direction = 2;
-                if (rotate == 1){
-                    moto.switchDirection();
-                    rotate = 2;
-                    CV.setRotate(1.0);
-
-                }
-                moto.addLastCoord();
-
-            } else if (event.getCode() == KeyCode.Q) {
-                direction = 3;
-                if (rotate == 2){
-                    moto.switchDirection();
-                    rotate = 1;
-                    CV.setRotate(2.0);
-
-                }
-                moto.addLastCoord();
-
-            } else if (event.getCode() == KeyCode.D) {
-                direction = 4;
-                if (rotate == 2){
-                    moto.switchDirection();
-                    rotate = 1;
-                    CV.setRotate(3.0);
-                }
-                moto.addLastCoord();
-
-            }else if(event.getCode() == KeyCode.B){
-                CV.clear();
-            }
-           // CV.start();
-        });
-
+        //Giga bug qui ne modifie pas le rotate
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
+                scene.setOnKeyReleased(event -> {
+                    if (event.getCode() == KeyCode.Z) {
+                        direction = 1;
+                        if (rotate == 1){
+                            CV.setRotate(0.0);
+                            moto.switchDirection();
+                            rotate = 2;
+                            System.out.println("J'appuye sur Z");
+                            moto.addLastCoord();
+                        }
+
+                    } else if (event.getCode() == KeyCode.S) {
+                        direction = 2;
+                        if (rotate == 1){
+                            CV.setRotate(1.0);
+                            moto.switchDirection();
+                            rotate = 2;
+                            System.out.println("J'appuye sur S");
+                            moto.addLastCoord();
+                        }
+
+                    } else if (event.getCode() == KeyCode.Q) {
+                        direction = 3;
+                        if (rotate == 2){
+                            CV.setRotate(2.0);
+                            moto.switchDirection();
+                            rotate = 1;
+                            moto.addLastCoord();
+                        }
+
+                    } else if (event.getCode() == KeyCode.D) {
+                        direction = 4;
+                        if (rotate == 2){
+                            CV.setRotate(3.0);
+                            moto.switchDirection();
+                            rotate = 1;
+                            moto.addLastCoord();
+                        }
+
+                    }else if(event.getCode() == KeyCode.B){
+                        CV.clear();
+                    }
+                    // CV.start();
+                });
+                
                 switch (direction) {
                     case 1:
                         moto.rectangle.setLayoutY(moto.rectangle.getLayoutY() - deplacement);
@@ -164,6 +164,7 @@ public class main extends Application {
                 rectangle.setLayoutX(rectangle.getLayoutX() + deplacement);
             }
         });*/
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }

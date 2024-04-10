@@ -33,6 +33,7 @@ public class ControllerVehicule {
     }
 
     public void drawLine() {
+        //System.out.println(vehicule.Tcoords.size());
         if (vehicule.Tcoords.size() >= 1){
             for (int i = 0; i < vehicule.Tcoords.size() - 1; i++) {
                 Line line = new Line(vehicule.Tcoords.get(i).get(1), vehicule.Tcoords.get(i).get(2), vehicule.Tcoords.get(i).get(3), vehicule.Tcoords.get(i).get(4));
@@ -40,69 +41,62 @@ public class ControllerVehicule {
                 panel.getChildren().add(line);
             }
         }
-        Line line = new Line(vehicule.Tcoords.get(vehicule.Tcoords.size() - 1).get(1), vehicule.Tcoords.get(vehicule.Tcoords.size() - 1).get(2), vehicule.getPositionX(), vehicule.getPositionY());
-        line.setStroke(Color.web("#2ddff3"));
-        panel.getChildren().add(line);
+        if (vehicule.Tcoords.size() > 0){
+            Line line = new Line(vehicule.Tcoords.get(vehicule.Tcoords.size() - 1).get(1), vehicule.Tcoords.get(vehicule.Tcoords.size() - 1).get(2), vehicule.getPositionX(), vehicule.getPositionY());
+            line.setStroke(Color.web("#2ddff3"));
+            panel.getChildren().add(line);
+        }
         syncTList();
     }
 
     public void syncTList(){
         //System.out.println("Synchronisation");
         //System.out.println(vehicule.Tcoords);
+        //System.out.println(vehicule.Tcoords.size());
         if (vehicule.Tcoords.size() > 1){
             //System.out.println("Plusieurs élément");
             double v = (double) vehicule.Tcoords.get(0).get(0);
             if (v == 0.0) {
-                vehicule.Tcoords.get(0).set(1, vehicule.Tcoords.get(0).get(1) - vehicule.getVitesseTrainee());
+                vehicule.Tcoords.get(0).set(2, vehicule.Tcoords.get(0).get(2) - vehicule.getVitesseTrainee());
                 //System.out.println(vehicule.Tcoords.get(0).get(2) - vehicule.Tcoords.get(0).get(4));
                 if(vehicule.Tcoords.get(0).get(2) - vehicule.Tcoords.get(0).get(4) < 0){
                     vehicule.Tcoords.remove(0);
+                    System.out.println("J'ai remove A");
                 }
             } else if (v == 1.0) {
-                vehicule.Tcoords.get(0).set(1, vehicule.Tcoords.get(0).get(1) + vehicule.getVitesseTrainee());
+                vehicule.Tcoords.get(0).set(2, vehicule.Tcoords.get(0).get(2) + vehicule.getVitesseTrainee());
                 if(vehicule.Tcoords.get(0).get(4) - vehicule.Tcoords.get(0).get(2) < 0){
                     vehicule.Tcoords.remove(0);
+                    System.out.println("J'ai remove B");
                 }
             } else if (v == 2.0) {
-                vehicule.Tcoords.get(0).set(1, vehicule.Tcoords.get(0).get(2) + vehicule.getVitesseTrainee());
-                if(vehicule.Tcoords.get(0).get(3) - vehicule.Tcoords.get(0).get(1) < 0){
+                vehicule.Tcoords.get(0).set(1, vehicule.Tcoords.get(0).get(1) - vehicule.getVitesseTrainee());
+                if(vehicule.Tcoords.get(0).get(1) - vehicule.Tcoords.get(0).get(3) < 0){
                     vehicule.Tcoords.remove(0);
+                    System.out.println("J'ai remove C");
+
                 }
             } else if (v == 3.0) {
-                vehicule.Tcoords.get(0).set(1, vehicule.Tcoords.get(0).get(2) - vehicule.getVitesseTrainee());
-                if(vehicule.Tcoords.get(0).get(2) - vehicule.Tcoords.get(0).get(3)< 0){
+                vehicule.Tcoords.get(0).set(1, vehicule.Tcoords.get(0).get(1) + vehicule.getVitesseTrainee());
+                if(vehicule.Tcoords.get(0).get(3) - vehicule.Tcoords.get(0).get(1)< 0){
                     vehicule.Tcoords.remove(0);
+                    System.out.println("J'ai remove D");
                 }
             }
         }
         else {
-            //System.out.println("un élément");
+            System.out.println("un élément");
             double v = (double) vehicule.Tcoords.get(0).get(0);
+           // System.out.println(v);
             //System.out.println(v);
             if (v == 0.0) {
-                /*System.out.println("On diminue le y de :");
-                System.out.println(vehicule.Tcoords.get(0).get(2));
-                System.out.println(" - ");
-                System.out.println(vehicule.getVitesseTrainee());*/
                 vehicule.Tcoords.get(0).set(2, vehicule.Tcoords.get(0).get(2) - vehicule.getVitesseTrainee());
-                if(vehicule.Tcoords.get(0).get(2) - vehicule.getPositionY() < 0){
-                    vehicule.Tcoords.remove(0);
-                }
             } else if (v == 1.0) {
                 vehicule.Tcoords.get(0).set(2, vehicule.Tcoords.get(0).get(2) + vehicule.getVitesseTrainee());
-                if(vehicule.getPositionY() - vehicule.Tcoords.get(0).get(2) < 0){
-                    vehicule.Tcoords.remove(0);
-                }
             } else if (v == 2.0) {
-                vehicule.Tcoords.get(0).set(2, vehicule.Tcoords.get(0).get(1) + vehicule.getVitesseTrainee());
-                if(vehicule.getPositionX() - vehicule.Tcoords.get(0).get(1) < 0){
-                    vehicule.Tcoords.remove(0);
-                }
+                vehicule.Tcoords.get(0).set(1, vehicule.Tcoords.get(0).get(1) - vehicule.getVitesseTrainee());
             } else if (v == 3.0) {
-                vehicule.Tcoords.get(0).set(2, vehicule.Tcoords.get(0).get(1) - vehicule.getVitesseTrainee());
-                if(vehicule.Tcoords.get(0).get(2) - vehicule.getPositionY()< 0){
-                    vehicule.Tcoords.remove(0);
-                }
+                vehicule.Tcoords.get(0).set(1, vehicule.Tcoords.get(0).get(1) + vehicule.getVitesseTrainee());
             }
         }
 
@@ -110,7 +104,7 @@ public class ControllerVehicule {
     }
 
     public void clear(){
-        System.out.println("clear");
+        //System.out.println("clear");
         panel.getChildren().clear();
     }
 
@@ -119,6 +113,7 @@ public class ControllerVehicule {
     }
 
     public void setRotate(double rotate){
+        System.out.println("J'envoie le set rotate avec la valeur" + rotate) ;
         vehicule.setRotate(rotate);
     }
 }

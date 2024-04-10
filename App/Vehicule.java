@@ -18,9 +18,8 @@ public class Vehicule {
     protected  int TLongueur;
     protected Color TCouleur;
     protected Rectangle rectangle;
-    protected int Tlargeur = 5;
     protected double VitesseTrainee;
-    private double rotate = 0;
+    private double rotate = 0.0;
     // 0 haut, 1 bas, 2 droite, 3 gauche
 
     protected List<List<Double>> Tcoords;
@@ -45,6 +44,7 @@ public class Vehicule {
         System.out.println("Ajout de coordonée");
         Tcoords.get(Tcoords.size() - 1).add(PositionX);
         Tcoords.get(Tcoords.size() - 1).add(PositionY);
+        System.out.println("J'ajoute le rotate : " + rotate);
         Tcoords.add(new ArrayList<>(Arrays.asList(rotate, PositionX, PositionY)));
     }
 
@@ -71,8 +71,8 @@ public class Vehicule {
         return rotate;
     }
 
-    public void setRotate(double rotate) {
+    public void setRotate(double rotatee) {
         System.out.println("Je set rotate");
-        this.rotate = rotate;
+        this.rotate = rotatee;
     }
 }
