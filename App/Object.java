@@ -14,13 +14,14 @@ public class Object {
 
 
 
-    public Object(String imagePath, double x, double y, objectType type) {
+    public Object(ImageView sprite, double x, double y, objectType type) {
         this.x = x;
         this.y = y;
         this.type = type;
 
         // crée un objet ImageView à partir de l'image spécifiée
-        this.sprite = new ImageView(new Image(imagePath));
+        this.sprite = sprite;
+                //new ImageView(new Image(imagePath));
 
         // crée un objet Pane pour contenir l'image
         this.pane = new Pane();

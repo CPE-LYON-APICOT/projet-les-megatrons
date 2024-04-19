@@ -1,10 +1,10 @@
 package App;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import java.util.Random;
 import java.lang.Thread;
-import java.util.concurrent.TimeUnit;
-
 
 
 public class ControllerObject {
@@ -21,7 +21,13 @@ public class ControllerObject {
         //System.out.println(pane.getHeight());
         double positionY = random.nextInt((int) pane.getHeight());
         double positionX = random.nextInt((int) pane.getWidth()) ;
-        Invicibilite objInvicibilite = new Invicibilite("file:assets/skillicon11_04.png",positionX,positionY);
+        Invicibilite objInvicibilite = new InvincibilityBuilder()
+                .setSprite(new ImageView(new Image("file:assets/skillicon11_04.png")))
+                .setX(positionX)
+                .setY(positionY)
+                .setDuration(5)
+                .setPvBonus(9999)
+                .build();
         return  objInvicibilite;
     }
 
@@ -30,7 +36,14 @@ public class ControllerObject {
         //System.out.println(pane.getHeight());
         double positionY = random.nextInt((int) pane.getHeight());
         double positionX = random.nextInt((int) pane.getWidth()) ;
-        Vitesse objectVitesse = new Vitesse("file:assets/skillicon11_05.png",positionX,positionY);
+        Vitesse objectVitesse = new VitesseBuilder()
+                .setSprite(new ImageView(new Image("file:assets/skillicon11_05.png")))
+                .setX(positionX)
+                .setY(positionY)
+                .setDuration(5)
+                .setBonusVitesse(5)
+                .build();
+
         return  objectVitesse;
     }
 

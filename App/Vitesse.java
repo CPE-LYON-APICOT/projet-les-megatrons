@@ -1,11 +1,13 @@
 package App;
 
+import javafx.scene.image.ImageView;
+
 public class Vitesse  extends Object{
     private int duration;
     private int Bonusvitesse;
 
-    public Vitesse(String imagePath, double x, double y) {
-        super(imagePath, x, y, objectType.VITESSE);
+    public Vitesse(ImageView sprite, double x, double y) {
+        super(sprite, x, y, objectType.VITESSE);
         this.duration = 5;
         this.Bonusvitesse = 5;
     }
