@@ -61,8 +61,8 @@ public class main extends Application {
         Scene scene = new Scene(new Pane(), 1080, 720);
 
         ControllerObject CO = new ControllerObject(JoueurA);
-        Invicibilite objInvicibilite = CO.objectInvicibilite(((Pane) scene.getRoot()));
-        
+        //Invicibilite objInvicibilite = CO.objectInvicibilite(((Pane) scene.getRoot()));
+
         ControllerVehicule ControllerJoueurA = new ControllerVehicule(JoueurA, scene, Trainer);
         ControllerVehicule ControllerJoueurB = new ControllerVehicule(JoueurB, scene, Trainer);
 
@@ -82,7 +82,7 @@ public class main extends Application {
 
         ControllerJoueurA.Spawn(scene);
         ControllerJoueurB.Spawn(scene);
-        CO.placeObject(((Pane) scene.getRoot()),objInvicibilite);
+        //CO.placeObject(((Pane) scene.getRoot()),objInvicibilite);
 
         primaryStage.setResizable(false);
         primaryStage.setTitle("Jeu Tron");
@@ -197,29 +197,32 @@ public class main extends Application {
                 ControllerJoueurA.drawLine();
                 ControllerJoueurB.drawLine();
 
-                if(ControllerJoueurA.isDead() || ControllerJoueurB.isDead()){
+                ControllerJoueurA.detectCollision(ControllerJoueurB.getVehiculeTcoord(), ControllerJoueurB.getVehiculeX(), ControllerJoueurB.getVehiculeY());
+                ControllerJoueurB.detectCollision(ControllerJoueurA.getVehiculeTcoord(), ControllerJoueurA.getVehiculeX(), ControllerJoueurA.getVehiculeY());
+
+                if (ControllerJoueurA.isDead()) {
+                    System.out.println("Le joueur A à perdu");
                     this.stop();
-                } else if (ControllerJoueurA.getDead() || ControllerJoueurB.getDead()) {
-                    System.out.println("J'ai toucher une valeur pas bonne");
+                } else if (ControllerJoueurB.isDead()) {
+                    System.out.println("Le joueur B à perdu");
                     this.stop();
                 }
-                ;
                 if( ControllerJoueurA.getPane().getBoundsInParent().getMinX() <= borderWidth  ||
                         ControllerJoueurA.getPane().getBoundsInParent().getMinY() <= borderWidth  ||
                         ControllerJoueurA.getPane().getBoundsInParent().getMaxX() >= root.getWidth() - borderWidth ||
                         ControllerJoueurA.getPane().getBoundsInParent().getMaxY() >= root.getHeight() - borderWidth) {
                     ControllerJoueurA.setPtsVie(-1);
-                    System.out.println("JoueurA a toucher la bordure");
+                    //System.out.println("JoueurA a toucher la bordure");
                 }
                 if( ControllerJoueurB.getPane().getBoundsInParent().getMinX() <= borderWidth  ||
                         ControllerJoueurB.getPane().getBoundsInParent().getMinY() <= borderWidth  ||
                         ControllerJoueurB.getPane().getBoundsInParent().getMaxX() >= root.getWidth() - borderWidth ||
                         ControllerJoueurB.getPane().getBoundsInParent().getMaxY() >= root.getHeight() - borderWidth) {
                     ControllerJoueurB.setPtsVie(-1);
-                    System.out.println("JoueurB a toucher la bordure");
+                    //System.out.println("JoueurB a toucher la bordure");
                 }
 
-                if (objInvicibilite.getPane().intersects(ControllerJoueurA.getPane().getBoundsInParent())){
+                /*if (objInvicibilite.getPane().intersects(ControllerJoueurA.getPane().getBoundsInParent())){
                     System.out.println("objet Pris");
 
                     try {
@@ -227,7 +230,7 @@ public class main extends Application {
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
-                }
+                }*/
             }
         };
 

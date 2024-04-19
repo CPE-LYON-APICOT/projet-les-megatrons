@@ -9,7 +9,7 @@ public class VehiculeFactory {
 
     public Vehicule CreateVehicule(VehiculeType vehicule) {
         return switch (vehicule) {
-            case VehiculeType.MOTO -> new Moto(350, 250, 10, 2, "file:assets/MiddleShip.png", 3.0);
+            case VehiculeType.MOTO -> new Moto(350, 250, 10, 1, "file:assets/MiddleShip.png", 4.0,3.0);
             case VehiculeType.VOITURE -> new Voiture();
             case VehiculeType.CAMION -> new Camion();
             default -> null;

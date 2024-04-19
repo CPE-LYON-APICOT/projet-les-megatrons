@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class Vehicule {
+public abstract class Vehicule implements VehiculeInterface{
     protected double PositionX;
+    protected double vitesse ;
     protected double PositionY;
     protected int PtsVieBase;
     protected int PtsVie;
@@ -17,13 +18,14 @@ public abstract class Vehicule {
     private int angle = 0;
     protected String SourcePNG;
 
-    public Vehicule(double PositionX, double PositionY, int PtsVieBase, int PtsVie, String LienImage, Double VitesseTrainee) {
+    public Vehicule(double PositionX, double PositionY, int PtsVieBase, int PtsVie, String LienImage,double vitesse, double VitesseTrainee) {
         this.PositionX = PositionX;
         this.PositionY = PositionY;
         this.PtsVieBase = PtsVieBase;
         this.PtsVie = PtsVie;
         this.SourcePNG = LienImage;
         this.VitesseTrainee = VitesseTrainee;
+        this.vitesse = vitesse;
 
     }
 
@@ -39,6 +41,12 @@ public abstract class Vehicule {
         return VitesseTrainee;
     }
 
+    public double getVitesse() {
+        return vitesse;
+    }
+    public void setVitesse(double vitesse) {
+        this.vitesse = vitesse;
+    }
     public double getRotate() {
         return this.rotate;
     }

@@ -26,22 +26,22 @@ public class ControllerVehicule {
         if (Listes.size() > 1) {
             for (int i = 0; i < Listes.size() - 1; i++) {
                 List<Double> liste = Listes.get(i);
-                System.out.println("------------");
-                System.out.println(liste);
-                System.out.println("------------");
                 Line line = new Line(liste.get(1), liste.get(2), liste.get(3), liste.get(4));
                 if (line.getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())) {
                     vehicule.setPtsVie(vehicule.getPtsVie() - 1);
+                    System.out.println("J'ai pris des dégats");
                 }
             }
             Line line = new Line(Listes.get(Listes.size() - 1).get(1), Listes.get(Listes.size() - 1).get(2), vehiculeX, vehiculeY);
             if (line.getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())) {
                 vehicule.setPtsVie(vehicule.getPtsVie() - 1);
+                System.out.println("J'ai pris des dégats");
             }
         }else {
             Line line = new Line(Listes.get(Listes.size() - 1).get(1), Listes.get(Listes.size() - 1).get(2), vehiculeX, vehiculeY);
             if (line.getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())) {
                 vehicule.setPtsVie(vehicule.getPtsVie() - 1);
+                System.out.println("J'ai pris des dégats");
             }
         }
     }
@@ -59,7 +59,7 @@ public class ControllerVehicule {
     }
 
     public void MoveX(int addX){
-        System.out.println(vehicule.PositionX );
+        //System.out.println(vehicule.PositionX );
         vehicule.PositionX = vehicule.PositionX + addX;
         vehicule.PanelImage.setLayoutX(vehicule.PositionX);
     }
@@ -107,26 +107,26 @@ public class ControllerVehicule {
                 vehicule.Tcoords.get(0).set(2, vehicule.Tcoords.get(0).get(2) - vehicule.getVitesseTrainee());
                 if (vehicule.Tcoords.get(0).get(2) - vehicule.Tcoords.get(0).get(4) < 0) {
                     vehicule.Tcoords.remove(0);
-                    System.out.println("J'ai remove A");
+                    //System.out.println("J'ai remove A");
                 }
             } else if (v == 1.0) {
                 vehicule.Tcoords.get(0).set(2, vehicule.Tcoords.get(0).get(2) + vehicule.getVitesseTrainee());
                 if (vehicule.Tcoords.get(0).get(4) - vehicule.Tcoords.get(0).get(2) < 0) {
                     vehicule.Tcoords.remove(0);
-                    System.out.println("J'ai remove B");
+                    //System.out.println("J'ai remove B");
                 }
             } else if (v == 2.0) {
                 vehicule.Tcoords.get(0).set(1, vehicule.Tcoords.get(0).get(1) - vehicule.getVitesseTrainee());
                 if (vehicule.Tcoords.get(0).get(1) - vehicule.Tcoords.get(0).get(3) < 0) {
                     vehicule.Tcoords.remove(0);
-                    System.out.println("J'ai remove C");
+                    //System.out.println("J'ai remove C");
 
                 }
             } else if (v == 3.0) {
                 vehicule.Tcoords.get(0).set(1, vehicule.Tcoords.get(0).get(1) + vehicule.getVitesseTrainee());
                 if (vehicule.Tcoords.get(0).get(3) - vehicule.Tcoords.get(0).get(1) < 0) {
                     vehicule.Tcoords.remove(0);
-                    System.out.println("J'ai remove D");
+                    //System.out.println("J'ai remove D");
                 }
             } else if (v == -1.0) {
                 vehicule.Tcoords.remove(0);
@@ -157,9 +157,9 @@ public class ControllerVehicule {
     }
 
     public void Spawn(Scene scene) {
-        System.out.println("Je spawn en " + vehicule.PositionX + " " + vehicule.PositionY);
+        //System.out.println("Je spawn en " + vehicule.PositionX + " " + vehicule.PositionY);
         Image image = new Image(vehicule.SourcePNG);
-        System.out.println(vehicule.SourcePNG);
+        //System.out.println(vehicule.SourcePNG);
         ImageView Joueur = new ImageView(image);
         Joueur.setFitHeight(vehicule.getHeight());
         Joueur.setFitWidth(vehicule.getWidth());
@@ -168,7 +168,7 @@ public class ControllerVehicule {
         vehicule.PanelImage.setPrefWidth(vehicule.getWidth());
         vehicule.PanelImage.setLayoutX(vehicule.PositionX);
         vehicule.PanelImage.setLayoutY(vehicule.PositionY);
-        vehicule.PanelImage.setStyle("-fx-background-color: lightgrey;");
+        //vehicule.PanelImage.setStyle("-fx-background-color: lightgrey;");
         ((Pane) scene.getRoot()).getChildren().add(vehicule.PanelImage);
         vehicule.genCoord();
     }

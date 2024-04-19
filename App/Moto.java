@@ -5,11 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Moto extends Vehicule{
-    private int MotoHeight = 50;
-    private int MotoWidth = 50;
+    private int MotoHeight = 20;
+    private int MotoWidth = 20;
     private double VitesseTrainee;
-    public Moto(int PositionX, int PositionY, int PtsVieBase, int PtsVie, String LienImage, Double VitesseTrainee) {
-        super(PositionX, PositionY, PtsVieBase, PtsVie, LienImage, VitesseTrainee);
+    public Moto(int PositionX, int PositionY, int PtsVieBase, int PtsVie, String LienImage,double vitesse, double VitesseTrainee) {
+        super(PositionX, PositionY, PtsVieBase, PtsVie, LienImage,vitesse,VitesseTrainee);
     }
 
     @Override
@@ -55,10 +55,10 @@ public class Moto extends Vehicule{
 
     @Override
     public void addLastCoord() {
-        System.out.println("Ajout de coordonée");
+        //System.out.println("Ajout de coordonée");
         Tcoords.get(Tcoords.size() - 1).add(getPositionTrainerX());
         Tcoords.get(Tcoords.size() - 1).add(getPositionTrainerY());
-        System.out.println("J'ajoute le rotate : " + rotate);
+        //System.out.println("J'ajoute le rotate : " + rotate);
         Tcoords.add(new ArrayList<>(Arrays.asList(rotate, getPositionTrainerX(), getPositionTrainerY())));
     }
 
@@ -66,6 +66,7 @@ public class Moto extends Vehicule{
     public int getHeight() {
         return MotoHeight;
     }
+
 
     @Override
     public int getWidth() {
