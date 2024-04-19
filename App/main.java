@@ -21,6 +21,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.animation.AnimationTimer;
 import javafx.util.Duration;
+import javafx.scene.layout.StackPane;
 
 public class main extends Application {
     Integer directionJoueurA = -1;
@@ -39,7 +40,6 @@ public class main extends Application {
         border.setStroke(Color.web("#ff4467"));
         border.setFill(Color.TRANSPARENT);
         border.setStrokeWidth(10);
-
 
         BorderStroke borderStroke = new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, null, new BorderWidths(20));
 
@@ -73,6 +73,12 @@ public class main extends Application {
 
 
         ((Pane) scene.getRoot()).getChildren().addAll(root, Trainer);
+
+        ControllerJoueurA.setvehiculeX(200.0);
+        ControllerJoueurA.setvehiculeY(360.0);
+
+        ControllerJoueurB.setvehiculeX(880.0);
+        ControllerJoueurB.setvehiculeY(360.0);
 
         ControllerJoueurA.Spawn(scene);
         ControllerJoueurB.Spawn(scene);
@@ -193,7 +199,11 @@ public class main extends Application {
 
                 if(ControllerJoueurA.isDead() || ControllerJoueurB.isDead()){
                     this.stop();
-                };
+                } else if (ControllerJoueurA.getDead() || ControllerJoueurB.getDead()) {
+                    System.out.println("J'ai toucher une valeur pas bonne");
+                    this.stop();
+                }
+                ;
                 if( ControllerJoueurA.getPane().getBoundsInParent().getMinX() <= borderWidth  ||
                         ControllerJoueurA.getPane().getBoundsInParent().getMinY() <= borderWidth  ||
                         ControllerJoueurA.getPane().getBoundsInParent().getMaxX() >= root.getWidth() - borderWidth ||

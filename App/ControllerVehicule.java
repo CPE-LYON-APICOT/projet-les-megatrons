@@ -3,12 +3,12 @@ package App;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-import javax.swing.text.Position;
+import javax.naming.ldap.Control;
+import java.util.List;
 
 
 public class ControllerVehicule {
@@ -22,6 +22,41 @@ public class ControllerVehicule {
         this.panel = panel;
     }
 
+    public void detectCollision(List<List<Double>> Listes, double vehiculeX, double vehiculeY){
+        if (Listes.size() > 1) {
+            for (int i = 0; i < Listes.size() - 1; i++) {
+                List<Double> liste = Listes.get(i);
+                System.out.println("------------");
+                System.out.println(liste);
+                System.out.println("------------");
+                Line line = new Line(liste.get(1), liste.get(2), liste.get(3), liste.get(4));
+                if (line.getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())) {
+                    vehicule.setPtsVie(vehicule.getPtsVie() - 1);
+                }
+            }
+            Line line = new Line(Listes.get(Listes.size() - 1).get(1), Listes.get(Listes.size() - 1).get(2), vehiculeX, vehiculeY);
+            if (line.getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())) {
+                vehicule.setPtsVie(vehicule.getPtsVie() - 1);
+            }
+        }else {
+            Line line = new Line(Listes.get(Listes.size() - 1).get(1), Listes.get(Listes.size() - 1).get(2), vehiculeX, vehiculeY);
+            if (line.getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())) {
+                vehicule.setPtsVie(vehicule.getPtsVie() - 1);
+            }
+        }
+    }
+
+    public double getVehiculeX(){
+        return vehicule.getPositionX();
+    }
+
+    public double getVehiculeY(){
+        return vehicule.getPositionY();
+    }
+
+    public List<List<Double>> getVehiculeTcoord(){
+        return vehicule.Tcoords;
+    }
 
     public void MoveX(int addX){
         System.out.println(vehicule.PositionX );
@@ -39,8 +74,7 @@ public class ControllerVehicule {
         if (vehicule.getRotate() != -1) {
             if (vehicule.Tcoords.size() >= 1) {
                 for (int i = 0; i < vehicule.Tcoords.size() - 1; i++) {
-                    Line line = new Line(vehicule.Tcoords.get(i).get(1), vehicule.Tcoords.get(i).get(2),
-                            vehicule.Tcoords.get(i).get(3), vehicule.Tcoords.get(i).get(4));
+                    Line line = new Line(vehicule.Tcoords.get(i).get(1), vehicule.Tcoords.get(i).get(2), vehicule.Tcoords.get(i).get(3), vehicule.Tcoords.get(i).get(4));
                     line.setStroke(Color.web(Couleur));
                     panel.getChildren().add(line);
                 }
@@ -65,7 +99,7 @@ public class ControllerVehicule {
 
     public void syncTList() {
         // System.out.println("Synchronisation");
-        // System.out.println(vehicule.Tcoords);
+        //System.out.println(vehicule.Tcoords);
         // System.out.println(vehicule.Tcoords.size());
         if (vehicule.Tcoords.size() > 1) {
             double v = (double) vehicule.Tcoords.get(0).get(0);
@@ -127,16 +161,14 @@ public class ControllerVehicule {
         Image image = new Image(vehicule.SourcePNG);
         System.out.println(vehicule.SourcePNG);
         ImageView Joueur = new ImageView(image);
-        System.out.println(vehicule.getWidth());
-        System.out.println(vehicule.getHeight());
         Joueur.setFitHeight(vehicule.getHeight());
         Joueur.setFitWidth(vehicule.getWidth());
         vehicule.PanelImage = new Pane(Joueur);
-        vehicule.PanelImage.setPrefHeight(vehicule.getWidth());
+        vehicule.PanelImage.setPrefHeight(vehicule.getHeight());
         vehicule.PanelImage.setPrefWidth(vehicule.getWidth());
         vehicule.PanelImage.setLayoutX(vehicule.PositionX);
         vehicule.PanelImage.setLayoutY(vehicule.PositionY);
-        //vehicule.PanelImage.setStyle("-fx-background-color: lightgrey; -fx-border-color: black; -fx-border-width: 2px;");
+        vehicule.PanelImage.setStyle("-fx-background-color: lightgrey;");
         ((Pane) scene.getRoot()).getChildren().add(vehicule.PanelImage);
         vehicule.genCoord();
     }
@@ -155,5 +187,22 @@ public class ControllerVehicule {
 
     public void setCouleur(String couleur) {
         Couleur = couleur;
+    }
+
+    public void setvehiculeX(double newX) {
+        vehicule.setPositionX(newX);
+    }
+
+    public void setvehiculeY(double newY) {
+        vehicule.setPositionY(newY);
+    }
+
+    public boolean getDead() {
+        if (vehicule.getPtsVie() == 0){
+            System.out.println("J'ai plus de vie");
+            return true;
+        }else{
+            return false;
+        }
     }
 }
