@@ -8,8 +8,8 @@ public class Moto extends Vehicule{
     private int MotoHeight = 50;
     private int MotoWidth = 50;
     private double VitesseTrainee;
-    public Moto(int PositionX, int PositionY, int PtsVieBase, int PtsVie, String LienImage, Double VitesseTrainee) {
-        super(PositionX, PositionY, PtsVieBase, PtsVie, LienImage, VitesseTrainee);
+    public Moto(int PositionX, int PositionY, int PtsVieBase, int PtsVie, String LienImage,double vitesse, double VitesseTrainee) {
+        super(PositionX, PositionY, PtsVieBase, PtsVie, LienImage,vitesse,VitesseTrainee);
     }
 
     @Override
@@ -66,6 +66,7 @@ public class Moto extends Vehicule{
     public int getHeight() {
         return MotoHeight;
     }
+
 
     @Override
     public int getWidth() {

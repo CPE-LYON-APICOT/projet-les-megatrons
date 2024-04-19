@@ -9,6 +9,7 @@ import java.lang.Thread;
 
 public class ControllerObject {
 
+    private VehiculeInterface originalVehicule;
     private Vehicule vehicule;
     public ControllerObject(Vehicule vehicule) {
         this.vehicule = vehicule;
@@ -47,24 +48,61 @@ public class ControllerObject {
         return  objectVitesse;
     }
 
-
-
     public void placeObject(Pane pane, Object object){
 
         pane.getChildren().add(object.getPane());
     }
 
+//    public void useObject (Pane pane, Object object) throws InterruptedException {
+//
+//        System.out.println(pane.getChildren());
+//        //TODO remettre quand hitbox sera fixé
+//        //pane.getChildren().remove(object.getPane());
+//
+//        switch (object.getType()){
+//            case INVICIBILITE -> useInvicibilite((Invicibilite) object);
+//            case VITESSE -> useVitesse();
+//
+//        }
+//    }
     public void useObject (Pane pane, Object object) throws InterruptedException {
 
         System.out.println(pane.getChildren());
-        //TODO remettre quand hitbox sera fixé
-        //pane.getChildren().remove(object.getPane());
+        pane.getChildren().remove(object.getPane());
+        applyObject(vehicule,object);
+        Thread invicibiliteThread = new Thread(() -> {
+            try {
+                //System.out.println("Invincibilité activée !");
+                Thread.sleep(object.getDuration()*1000); // Attendre 5 secondes
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("fin de l'effet de l'objet");
+            unapplyObject();
+        });
 
-        switch (object.getType()){
-            case INVICIBILITE -> useInvicibilite((Invicibilite) object);
-            case VITESSE -> useVitesse();
-
+    }
+    public void applyObject(VehiculeInterface vehicule, Object object) {
+        originalVehicule = vehicule;
+        switch (object.getType()) {
+            case INVICIBILITE:
+                Invicibilite invicibilite = (Invicibilite) object;
+                InvincibiliteDecorator invicibiliteDecorator = new InvincibiliteDecorator(vehicule, invicibilite.getPvBonus(), invicibilite.getDuration());
+                vehicule = invicibiliteDecorator;
+                break;
+            case VITESSE:
+                Vitesse vitesse = (Vitesse) object;
+                VitesseDecorator vitesseDecorator = new VitesseDecorator(vehicule, vitesse.getBonusvitesse(), vitesse.getDuration());
+                vehicule = vitesseDecorator;
+                break;
+            default:
+                break;
         }
+    }
+
+    public void unapplyObject() {
+        //TODO viser un objet précis
+        vehicule = (Vehicule) originalVehicule;
     }
 
     public  void useInvicibilite(Invicibilite objInvicibilite) throws InterruptedException {

@@ -11,13 +11,13 @@ public class Object {
     private double x;
     private double y;
     private objectType type;
+    private int duration;
 
-
-
-    public Object(ImageView sprite, double x, double y, objectType type) {
+    public Object(ImageView sprite, double x, double y, objectType type, int duration) {
         this.x = x;
         this.y = y;
         this.type = type;
+        this.duration = duration;
 
         // crée un objet ImageView à partir de l'image spécifiée
         this.sprite = sprite;
@@ -63,6 +63,13 @@ public class Object {
     public void setY(double y) {
         this.y = y;
         this.sprite.setY(y);
+    }
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duree) {
+        this.duration = duree;
     }
 }
 
