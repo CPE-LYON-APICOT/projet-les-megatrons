@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -22,12 +23,16 @@ import javafx.scene.paint.Color;
 import javafx.animation.AnimationTimer;
 import javafx.util.Duration;
 
+import javafx.scene.layout.StackPane;
+
+
 public class main extends Application {
     Integer directionJoueurA = -1;
     Integer directionJoueurB = -1;
     Double RotateJoueurA = -1.0;
     Double RotateJoueurB = -1.0;
 
+    private Scene Accueil, scene;
 
 
     @Override
@@ -43,22 +48,70 @@ public class main extends Application {
 
         BorderStroke borderStroke = new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, null, new BorderWidths(20));
 
-        //Image de fond
+
+        //Image de fond Jeux
         Image backgroundImage = new Image("file:assets/Background.jpg");
         ImageView backgroundImageView = new ImageView(backgroundImage);
         backgroundImageView.fitWidthProperty().bind(primaryStage.widthProperty());
         backgroundImageView.fitHeightProperty().bind(primaryStage.heightProperty());
+
+        //Image de fond Accueil
+        Image backgroundAccueil = new Image("file:assets/TransformerWallpaper.jpg");
+        ImageView backgroundAcceuilView = new ImageView(backgroundAccueil);
+        backgroundAcceuilView.fitWidthProperty().bind(primaryStage.widthProperty());
+        backgroundAcceuilView.fitHeightProperty().bind(primaryStage.heightProperty());
+
+        Button switchButton = new Button("Jouer");
+        switchButton.setPrefHeight(75.0);
+        switchButton.setPrefWidth(300.0);
+        switchButton.setStyle("-fx-font-size: 24px; -fx-background-color: transparent; -fx-text-fill: black; -fx-border-radius: 12px; -fx-border-color: black; -fx-border-width: 2px; -fx-background-radius: 12px;");
+        switchButton.setCursor(Cursor.HAND);
+        switchButton.setOnMouseEntered(e -> {
+            switchButton.setStyle(
+                    "-fx-border-radius: 12px; " +
+                    "-fx-background-radius: 12px; " +
+                    "-fx-border-color: black; " +
+                    "-fx-background-color: rgba(239, 239, 239, 0.258);" +
+                    "-fx-text-fill: black;" +
+                    "-fx-border-width: 2px;"+
+                    "-fx-font-size: 24px;"
+            );
+        });
+
+
+        switchButton.setOnMouseExited(e -> {
+            switchButton.setStyle(
+                    "-fx-border-radius: 12px; " +
+                    "-fx-background-radius: 12px; " +
+                    "-fx-border-color: black; " +
+                    "-fx-border-width: 2px; " +
+                    "-fx-background-color: transparent;" +
+                    "-fx-text-fill: black; " +
+                    "-fx-font-size: 24px;"
+
+            );
+        });
+
+        switchButton.setOnAction(e -> primaryStage.setScene(scene));
+        StackPane accueil = new StackPane();
+
+
+        Accueil = new Scene(accueil, 1080, 720);
+        accueil.getChildren().add(backgroundAcceuilView);
+        accueil.getChildren().add(switchButton);
+
 
         VehiculeFactory Factory = new VehiculeFactory();
 
         Moto JoueurA = (Moto) Factory.CreateVehicule(VehiculeType.MOTO);
         Moto JoueurB = (Moto) Factory.CreateVehicule(VehiculeType.MOTO);
 
+
         Pane root = new Pane();
         Pane Trainer = new Pane();
         root.getChildren().add(backgroundImageView);
         root.getChildren().add(border);
-        Scene scene = new Scene(new Pane(), 1080, 720);
+        scene = new Scene(new StackPane(), 1080, 720);
 
         ControllerObject CO = new ControllerObject(JoueurA);
         Invicibilite objInvicibilite = CO.objectInvicibilite(((Pane) scene.getRoot()));
@@ -222,7 +275,7 @@ public class main extends Application {
         };
 
         JoueurTimer.start();
-        primaryStage.setScene(scene);
+        primaryStage.setScene(Accueil);
         primaryStage.show();
     }
 
