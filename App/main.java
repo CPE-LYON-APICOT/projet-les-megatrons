@@ -7,29 +7,32 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.Pane;
-import javafx.scene.transform.Rotate;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.animation.AnimationTimer;
 import javafx.util.Duration;
-import javafx.scene.layout.StackPane;
+
+
+
 
 public class main extends Application {
     Integer directionJoueurA = -1;
     Integer directionJoueurB = -1;
     Double RotateJoueurA = -1.0;
     Double RotateJoueurB = -1.0;
-
-
+    String Bleu = "#2ddff3";
+    String Rose = "#F33A6A";
+    String Orange = "#FF8C00";
 
     @Override
     public void start(Stage primaryStage) {
@@ -44,14 +47,14 @@ public class main extends Application {
         BorderStroke borderStroke = new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, null, new BorderWidths(20));
 
         //Image de fond
-        Image backgroundImage = new Image("file:assets/Background.jpg");
+        Image backgroundImage = new Image("file:assets/mer.jpg");
         ImageView backgroundImageView = new ImageView(backgroundImage);
         backgroundImageView.fitWidthProperty().bind(primaryStage.widthProperty());
         backgroundImageView.fitHeightProperty().bind(primaryStage.heightProperty());
 
         VehiculeFactory Factory = new VehiculeFactory();
 
-        Moto JoueurA = (Moto) Factory.CreateVehicule(VehiculeType.MOTO);
+        Camion JoueurA = (Camion) Factory.CreateVehicule(VehiculeType.CAMION);
         Moto JoueurB = (Moto) Factory.CreateVehicule(VehiculeType.MOTO);
 
         Pane root = new Pane();
@@ -66,9 +69,7 @@ public class main extends Application {
         ControllerVehicule ControllerJoueurA = new ControllerVehicule(JoueurA, scene, Trainer);
         ControllerVehicule ControllerJoueurB = new ControllerVehicule(JoueurB, scene, Trainer);
 
-        String Bleu = "#2ddff3";
-        String Rose = "#F33A6A";
-        ControllerJoueurA.setCouleur(Bleu);
+        ControllerJoueurA.setCouleur(Orange);
         ControllerJoueurB.setCouleur(Rose);
 
 
@@ -166,31 +167,31 @@ public class main extends Application {
                 });
                 switch (directionJoueurB) {
                     case 0:
-                        ControllerJoueurB.MoveY(-deplacement);
+                        ControllerJoueurB.MoveY(-ControllerJoueurB.getVitesse());
                         break;
                     case 1:
-                        ControllerJoueurB.MoveY(deplacement);
+                        ControllerJoueurB.MoveY(ControllerJoueurB.getVitesse());
                         break;
                     case 2:
-                        ControllerJoueurB.MoveX(-deplacement);
+                        ControllerJoueurB.MoveX(-ControllerJoueurB.getVitesse());
                         break;
                     case 3:
-                        ControllerJoueurB.MoveX(deplacement);
+                        ControllerJoueurB.MoveX(ControllerJoueurB.getVitesse());
                         break;
                 }
 
                 switch (directionJoueurA) {
                     case 0:
-                        ControllerJoueurA.MoveY(-deplacement);
+                        ControllerJoueurA.MoveY(-ControllerJoueurA.getVitesse());
                         break;
                     case 1:
-                        ControllerJoueurA.MoveY(deplacement);
+                        ControllerJoueurA.MoveY(ControllerJoueurA.getVitesse());
                         break;
                     case 2:
-                        ControllerJoueurA.MoveX(-deplacement);
+                        ControllerJoueurA.MoveX(-ControllerJoueurA.getVitesse());
                         break;
                     case 3:
-                        ControllerJoueurA.MoveX(deplacement);
+                        ControllerJoueurA.MoveX(ControllerJoueurA.getVitesse());
                         break;
                 }
 
@@ -234,6 +235,7 @@ public class main extends Application {
             }
         };
 
+        //playMusic();
         JoueurTimer.start();
         primaryStage.setScene(scene);
         primaryStage.show();

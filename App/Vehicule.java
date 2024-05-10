@@ -117,6 +117,10 @@ public abstract class Vehicule implements VehiculeInterface{
         PtsVie = ptsVie;
     }
 
+    public int getLargeur(){
+        return 0;
+    }
+
     public void syncImage() {
         switch ((int) rotate){
             case 0:

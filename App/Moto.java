@@ -72,4 +72,9 @@ public class Moto extends Vehicule{
     public int getWidth() {
         return MotoWidth;
     }
+
+    @Override
+    public int getLargeur(){
+        return 1;
+    }
 }
