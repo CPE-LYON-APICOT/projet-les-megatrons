@@ -160,7 +160,7 @@ public class ControllerVehicule {
         vehicule.PanelImage.setPrefWidth(vehicule.getWidth());
         vehicule.PanelImage.setLayoutX(vehicule.PositionX);
         vehicule.PanelImage.setLayoutY(vehicule.PositionY);
-        vehicule.PanelImage.setStyle("-fx-background-color: lightblue; -fx-border-color: navy; -fx-border-width: 1px;");
+        //vehicule.PanelImage.setStyle("-fx-background-color: #ffffff69; -fx-border-radius: 12px;");
         ((Pane) scene.getRoot()).getChildren().add(vehicule.PanelImage);
         vehicule.genCoord();
     }

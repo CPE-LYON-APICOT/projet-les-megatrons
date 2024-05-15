@@ -8,6 +8,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -54,7 +55,7 @@ public class main extends Application {
             BorderStroke borderStroke = new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, null, new BorderWidths(20));
 
             //Image de fond
-            Image backgroundImage = new Image("file:assets/mer.jpg");
+            Image backgroundImage = new Image("file:assets/Background.jpeg");
             ImageView backgroundImageView = new ImageView(backgroundImage);
             backgroundImageView.fitWidthProperty().bind(secondStage.widthProperty());
             backgroundImageView.fitHeightProperty().bind(secondStage.heightProperty());
@@ -102,11 +103,9 @@ public class main extends Application {
 
             timeline.setCycleCount(Timeline.INDEFINITE);
             timeline.play();
-            int deplacement = 4;
             AnimationTimer JoueurTimer = new AnimationTimer() {
                 @Override
                 public void handle(long l) {
-                    //System.out.println(direction);
                     scene.setOnKeyReleased(event -> {
                         if (event.getCode() == KeyCode.O) {
                             if (directionJoueurB != 1 && RotateJoueurB != 0.0) {
@@ -248,59 +247,106 @@ public class main extends Application {
 
         // Création des menus déroulants
         MenuButton ma = new MenuButton("Joueur A");
-        ma.setStyle("-fx-background-color: lightblue; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;");
+        ma.setStyle("-fx-background-color: #eca430; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px; -fx-font-size: 15; -fx-font-weight: bold");
         ma.getItems().addAll(
-                new MenuItem("Moto"),
-                new MenuItem("Voiture"),
-                new MenuItem("Camion")
+                new MenuItem("Arcee"),
+                new MenuItem("Bumblee"),
+                new MenuItem("Optimus Prime")
         );
 
         MenuButton mb = new MenuButton("Joueur B");
-        mb.setStyle("-fx-background-color: lightgreen; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;");
+        mb.setStyle("-fx-background-color: #F33A6A; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px; -fx-font-size: 15; -fx-font-weight: bold");
         mb.getItems().addAll(
-                new MenuItem("Moto"),
-                new MenuItem("Voiture"),
-                new MenuItem("Camion")
+                new MenuItem("Arcee"),
+                new MenuItem("Bumblebee"),
+                new MenuItem("Optimus Prime")
         );
 
         // Gestion des actions de sélection de véhicule pour le joueur A
         ma.getItems().get(0).setOnAction(event -> {
             System.out.println("Moto sélectionnée");
             JoueurA = Factory.CreateVehicule(VehiculeType.MOTO);
+            ma.setText("Arcee");
         });
 
         ma.getItems().get(1).setOnAction(event -> {
             System.out.println("Voiture sélectionnée");
             JoueurA = Factory.CreateVehicule(VehiculeType.VOITURE);
+            ma.setText("Bumblebee");
         });
 
         ma.getItems().get(2).setOnAction(event -> {
             System.out.println("Camion sélectionnée");
             JoueurA = Factory.CreateVehicule(VehiculeType.CAMION);
+            ma.setText("Optimus Prime");
         });
 
         // Gestion des actions de sélection de véhicule pour le joueur B
         mb.getItems().get(0).setOnAction(event -> {
             System.out.println("Moto sélectionnée");
             JoueurB = Factory.CreateVehicule(VehiculeType.MOTO);
+            mb.setText("Arcee");
         });
 
         mb.getItems().get(1).setOnAction(event -> {
             System.out.println("Voiture sélectionnée");
             JoueurB = Factory.CreateVehicule(VehiculeType.VOITURE);
+            mb.setText("Bumblebee");
         });
 
         mb.getItems().get(2).setOnAction(event -> {
             System.out.println("Camion sélectionnée");
             JoueurB = Factory.CreateVehicule(VehiculeType.CAMION);
+            mb.setText("Optimus Prime");
         });
 
 
-        Button playButton =  new Button("PLAY!!!!");
-        playButton.setStyle("-fx-background-color: red; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px;");
+        Button playButton =  new Button("PLAY");
+        playButton.setPrefWidth(100);
+        playButton.setPrefHeight(40);
+        playButton.setStyle("-fx-background-color: #3f3f3f; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 12px; -fx-font-size: 15; -fx-font-weight: bold;");
+
 
         // Création du layout principal
         BorderPane rootMenu = new BorderPane();
+
+        Image backgroundImage = new Image("file:assets/TestBG.png");
+        ImageView backgroundImageView = new ImageView(backgroundImage);
+        backgroundImageView.fitWidthProperty().bind(rootMenu.widthProperty());
+        backgroundImageView.fitHeightProperty().bind(rootMenu.heightProperty());
+
+        rootMenu.getChildren().add(backgroundImageView);
+
+        playButton.setOnMouseEntered(e -> {
+            playButton.setStyle("-fx-background-color: #2c2b2b; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 12px; -fx-font-size: 15; -fx-font-weight: bold;");
+            rootMenu.setCursor(Cursor.HAND);
+        });
+
+        playButton.setOnMouseExited(e -> {
+            playButton.setStyle("-fx-background-color: #3f3f3f; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 12px; -fx-font-size: 15; -fx-font-weight: bold;");
+            rootMenu.setCursor(Cursor.DEFAULT);
+        });
+
+        ma.setOnMouseEntered(e -> {
+            ma.setStyle("-fx-background-color: #b87f24; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px; -fx-font-size: 15; -fx-font-weight: bold");
+            rootMenu.setCursor(Cursor.HAND);
+        });
+
+        ma.setOnMouseExited(e -> {
+            ma.setStyle("-fx-background-color: #eca430; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px; -fx-font-size: 15; -fx-font-weight: bold");
+            rootMenu.setCursor(Cursor.DEFAULT);
+        });
+
+        mb.setOnMouseEntered(e -> {
+            mb.setStyle("-fx-background-color: #c6325a; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px; -fx-font-size: 15; -fx-font-weight: bold");
+            rootMenu.setCursor(Cursor.HAND);
+        });
+
+        mb.setOnMouseExited(e -> {
+            mb.setStyle("-fx-background-color: #F33A6A; -fx-text-fill: white; -fx-padding: 10px 20px; -fx-border-radius: 5px; -fx-font-size: 15; -fx-font-weight: bold");
+            rootMenu.setCursor(Cursor.DEFAULT);
+        });
+
         rootMenu.setCenter(playButton);
         HBox menuBox = new HBox(ma, mb);
         menuBox.setSpacing(10); // Définir l'espace entre les MenuButtons

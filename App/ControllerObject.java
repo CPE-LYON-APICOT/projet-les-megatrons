@@ -23,9 +23,6 @@ public class ControllerObject {
     protected long lastSpawn;
 
     public ControllerObject(Vehicule Joueur1, Vehicule Joueur2) {
-        //VehiculesBase.add(Joueur1);
-        //VehiculesBase.add(Joueur2);
-
         Vehicules.add(Joueur1);
         Vehicules.add(Joueur2);
     }
@@ -91,17 +88,16 @@ public class ControllerObject {
                     intToSupp.add(Objects.indexOf(obj));
                 }
             }
-            //System.out.println(intToSupp);
-            for (int i = intToSupp.size() - 1; i >= 0; i--) {
-                Objects.remove(intToSupp.get(i));
-                System.out.println("J'ai remove à l'index" + intToSupp.get(i));
+            if (intToSupp.isEmpty() == false){
+                for (int i = intToSupp.size() - 1; i >= 0; i--) {
+                    Objects.remove(Objects.get(intToSupp.get(i)));
+                }
             }
         }
-        System.out.println(Objects);
     }
 
 
-    public void applyObject(VehiculeInterface vehicule, Object object) {
+    public Vehicule applyObject(VehiculeInterface vehicule, Object object) {
         //Vehicules.set(VehiculesBase.indexOf(vehicule), (Vehicule) vehicule);
         switch (object.getType()) {
             case INVICIBILITE:
@@ -110,15 +106,16 @@ public class ControllerObject {
                 System.out.println("J'ai pris un bonus d'invincibilité ");
                 vehicule = invicibiliteDecorator;
                 vehicule.setVitesse(90);
-                break;
+                return (Vehicule) vehicule;
             case VITESSE:
                 Vitesse vitesse = (Vitesse) object;
                 VitesseDecorator vitesseDecorator = new VitesseDecorator(vehicule, vitesse.getBonusvitesse(), vitesse.getDuration());
                 System.out.println("J'ai pris un bonus de vitesse");
                 vehicule = vitesseDecorator;
-                break;
+                return (Vehicule) vehicule;
             default:
                 break;
         }
+        return null;
     }
 }
