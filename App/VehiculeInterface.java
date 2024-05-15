@@ -8,7 +8,6 @@ public interface VehiculeInterface {
     double getPositionX();
     double getPositionY();
     int getPtsVie();
-    void setPtsVie(int ptsVie);
     int getPtsVieBase();
     void setPtsVieBase(int ptsVieBase);
     Pane getPanelImage();
@@ -18,6 +17,5 @@ public interface VehiculeInterface {
     int getWidth();
     int getHeight();
     double getVitesseTrainee();
-    double getVitesse();
     void setVitesse(double vitesse);
 }

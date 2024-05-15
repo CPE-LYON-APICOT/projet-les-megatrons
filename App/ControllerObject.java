@@ -6,10 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 import java.lang.Thread;
 
 
@@ -35,7 +32,7 @@ public class ControllerObject {
 
         Object object = new InvincibilityBuilder().setSprite("file:assets/skillicon11_04.png").setX(positionX).setY(positionY).setDuration(5).setPvBonus(9999).build();
         String LienImage = "file:assets/skillicon11_04.png";
-        switch (random.nextInt(0, 2)) {
+        switch (random.nextInt(0,2)) {
             case 0 :
                 object = new InvincibilityBuilder().setSprite("file:assets/skillicon11_04.png").setX(positionX).setY(positionY).setDuration(5).setPvBonus(9999).build();
                 LienImage = "file:assets/skillicon11_04.png";
@@ -65,9 +62,7 @@ public class ControllerObject {
     }
 
     public boolean isObjectSpawnable() {
-        System.out.println(System.currentTimeMillis() - this.lastSpawn);
-        //20000
-        if (System.currentTimeMillis() - this.lastSpawn > 5000){
+        if (System.currentTimeMillis() - this.lastSpawn > 20000){
             this.lastSpawn = System.currentTimeMillis();
             return true;
         }
@@ -97,25 +92,44 @@ public class ControllerObject {
     }
 
 
-    public Vehicule applyObject(VehiculeInterface vehicule, Object object) {
-        //Vehicules.set(VehiculesBase.indexOf(vehicule), (Vehicule) vehicule);
+    public Vehicule applyObject(Vehicule vehicule, Object object) {
+        Timer timer = new Timer();
+        long delay = 5000;
+
         switch (object.getType()) {
             case INVICIBILITE:
                 Invicibilite invicibilite = (Invicibilite) object;
-                InvincibiliteDecorator invicibiliteDecorator = new InvincibiliteDecorator(vehicule, invicibilite.getPvBonus(), invicibilite.getDuration());
+                InvincibiliteDecorator invicibiliteDecorator = new InvincibiliteDecorator(vehicule);
                 System.out.println("J'ai pris un bonus d'invincibilité ");
-                vehicule = invicibiliteDecorator;
-                vehicule.setVitesse(90);
-                return (Vehicule) vehicule;
+                vehicule.multiplicateurDegat = new InvincibiliteDecorator(vehicule);
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        vehicule.multiplicateurDegat = (IPointsDeVie) invicibiliteDecorator.baseProvider;
+                    }
+                }, delay);
+
+                break;
             case VITESSE:
-                Vitesse vitesse = (Vitesse) object;
-                VitesseDecorator vitesseDecorator = new VitesseDecorator(vehicule, vitesse.getBonusvitesse(), vitesse.getDuration());
+                VitesseDecorator vitesseDecorator = new VitesseDecorator(vehicule);
                 System.out.println("J'ai pris un bonus de vitesse");
-                vehicule = vitesseDecorator;
-                return (Vehicule) vehicule;
+                System.out.println(vehicule.getVitesse());
+                vehicule.setVitesseProvider(vitesseDecorator);
+
+                // Schedule a task to be executed after delay
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        // Your callback function
+
+                        vehicule.setVitesseProvider(vitesseDecorator.getBasedProvider());
+                    }
+                }, delay);
+                System.out.println(vehicule.getVitesse());
+                break;
             default:
                 break;
         }
-        return null;
+        return vehicule;
     }
 }

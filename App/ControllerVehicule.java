@@ -7,11 +7,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-import javax.naming.ldap.Control;
 import java.util.List;
 
 
-public class ControllerVehicule {
+public class ControllerVehicule implements IVitesse {
     private Vehicule vehicule;
     private Scene scene;
     private Pane panel;
@@ -28,19 +27,19 @@ public class ControllerVehicule {
                 List<Double> liste = Listes.get(i);
                 Line line = new Line(liste.get(1), liste.get(2), liste.get(3), liste.get(4));
                 if (line.getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())) {
-                    vehicule.setPtsVie(vehicule.getPtsVie() - 1);
+                    vehicule.retirerPtsVie(1);
                     System.out.println("J'ai pris des dégats");
                 }
             }
             Line line = new Line(Listes.get(Listes.size() - 1).get(1), Listes.get(Listes.size() - 1).get(2), vehiculeX, vehiculeY);
             if (line.getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())) {
-                vehicule.setPtsVie(vehicule.getPtsVie() - 1);
+                vehicule.retirerPtsVie(1);
                 System.out.println("J'ai pris des dégats");
             }
         }else {
             Line line = new Line(Listes.get(Listes.size() - 1).get(1), Listes.get(Listes.size() - 1).get(2), vehiculeX, vehiculeY);
             if (line.getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())) {
-                vehicule.setPtsVie(vehicule.getPtsVie() - 1);
+                vehicule.retirerPtsVie(1);
                 System.out.println("J'ai pris des dégats");
             }
         }
@@ -169,8 +168,8 @@ public class ControllerVehicule {
         return vehicule.getPanelImage();
     }
 
-    public void setPtsVie(int add){
-        vehicule.setPtsVie(vehicule.getPtsVie() + add);
+    public void retirerPtsVie(int i){
+        vehicule.retirerPtsVie(i);
     }
 
     public void setPane(Pane panelImage) {
@@ -181,9 +180,7 @@ public class ControllerVehicule {
         Couleur = couleur;
     }
 
-    public double getVitesse(){
-        return vehicule.getVitesse();
-    }
+
 
     public void setvehiculeX(double newX) {
         vehicule.setPositionX(newX);
@@ -200,5 +197,10 @@ public class ControllerVehicule {
         }else{
             return false;
         }
+    }
+
+    @Override
+    public double getVitesse() {
+        return vehicule.getVitesse();
     }
 }

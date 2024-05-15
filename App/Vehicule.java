@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public abstract class Vehicule implements VehiculeInterface{
+public abstract class Vehicule implements VehiculeInterface, IVitesse,IPointsDeVie{
     protected double PositionX;
+    public int getMultiplicateur(){return multiplicateurDegat.getMultiplicateur();}
     protected double vitesse ;
     protected double PositionY;
     protected int PtsVieBase;
@@ -18,7 +19,7 @@ public abstract class Vehicule implements VehiculeInterface{
     private int angle = 0;
     protected String SourcePNG;
 
-    public Vehicule(double PositionX, double PositionY, int PtsVieBase, int PtsVie, String LienImage,double vitesse, double VitesseTrainee) {
+    protected Vehicule(double PositionX, double PositionY, int PtsVieBase, int PtsVie, String LienImage,double vitesse, double VitesseTrainee) {
         this.PositionX = PositionX;
         this.PositionY = PositionY;
         this.PtsVieBase = PtsVieBase;
@@ -26,12 +27,19 @@ public abstract class Vehicule implements VehiculeInterface{
         this.SourcePNG = LienImage;
         this.VitesseTrainee = VitesseTrainee;
         this.vitesse = vitesse;
+
+
+        this.vitesseProvider = new IVitesse() {
+            @Override
+            public double getVitesse() {
+                return vitesse;
+            }
+        };
     }
 
     public Vehicule(){
 
     }
-
 
     public void addLastCoord() {
     }
@@ -41,7 +49,7 @@ public abstract class Vehicule implements VehiculeInterface{
     }
 
     public double getVitesse() {
-        return vitesse;
+        return vitesseProvider.getVitesse();
     }
     public void setVitesse(double vitesse) {
         this.vitesse = vitesse;
@@ -112,9 +120,7 @@ public abstract class Vehicule implements VehiculeInterface{
         return PtsVie;
     }
 
-    public void setPtsVie(int ptsVie) {
-        PtsVie = ptsVie;
-    }
+
 
     public int getLargeur(){
         return 0;
@@ -135,5 +141,19 @@ public abstract class Vehicule implements VehiculeInterface{
                 PanelImage.setRotate(260);
                 break;
         }
+    }
+    IVitesse vitesseProvider;
+    public void setVitesseProvider(IVitesse vitesseProvider) {
+        this.vitesseProvider = vitesseProvider;
+    }
+    IPointsDeVie multiplicateurDegat = new IPointsDeVie() {
+        @Override
+        public int getMultiplicateur() {
+            return 1;
+        }
+    };;
+
+    public void retirerPtsVie(int i) {
+        this.PtsVie = (PtsVie-i*getMultiplicateur());
     }
 }

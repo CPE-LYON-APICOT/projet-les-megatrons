@@ -4,8 +4,6 @@ package App;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -13,20 +11,13 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.animation.AnimationTimer;
 import javafx.util.Duration;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.*;
 
@@ -215,14 +206,14 @@ public class main extends Application {
                             ControllerJoueurA.getPane().getBoundsInParent().getMinY() <= borderWidth - 15 ||
                             ControllerJoueurA.getPane().getBoundsInParent().getMaxX() >= root.getWidth() - borderWidth  ||
                             ControllerJoueurA.getPane().getBoundsInParent().getMaxY() >= root.getHeight() - borderWidth - 28) {
-                        ControllerJoueurA.setPtsVie(-1);
+                        ControllerJoueurA.retirerPtsVie(1);
                         //System.out.println("JoueurA a toucher la bordure");
                     }
                     if( ControllerJoueurB.getPane().getBoundsInParent().getMinX() <= borderWidth - 15  ||
                             ControllerJoueurB.getPane().getBoundsInParent().getMinY() <= borderWidth - 15 ||
                             ControllerJoueurB.getPane().getBoundsInParent().getMaxX() >= root.getWidth() - borderWidth ||
                             ControllerJoueurB.getPane().getBoundsInParent().getMaxY() >= root.getHeight() - borderWidth - 28) {
-                        ControllerJoueurB.setPtsVie(-1);
+                        ControllerJoueurB.retirerPtsVie(1);
                         //System.out.println("JoueurB a toucher la bordure");
                     }
                 }
@@ -383,7 +374,7 @@ public class main extends Application {
         Scene scene = new Scene(rootMenu, 420, 200);
 
         primaryStage.setScene(scene);
-        primaryStage.setTitle("My Game");
+        primaryStage.setTitle("Mega-Tron");
         primaryStage.show();
     }
 
