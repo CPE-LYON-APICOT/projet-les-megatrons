@@ -46,7 +46,7 @@ public class main extends Application {
             System.out.println("Start la page");
 
             //Bordure de la page
-            Rectangle border = new Rectangle(1080, 720);
+            Rectangle border = new Rectangle(1067, 683);
             border.setStroke(Color.web("#ff4467"));
             border.setFill(Color.TRANSPARENT);
             border.setStrokeWidth(10);
@@ -212,17 +212,17 @@ public class main extends Application {
                         System.out.println("Le joueur B à perdu");
                         this.stop();
                     }
-                    if( ControllerJoueurA.getPane().getBoundsInParent().getMinX() <= borderWidth  ||
-                            ControllerJoueurA.getPane().getBoundsInParent().getMinY() <= borderWidth  ||
-                            ControllerJoueurA.getPane().getBoundsInParent().getMaxX() >= root.getWidth() - borderWidth ||
-                            ControllerJoueurA.getPane().getBoundsInParent().getMaxY() >= root.getHeight() - borderWidth) {
+                    if( ControllerJoueurA.getPane().getBoundsInParent().getMinX() <= borderWidth - 15 ||
+                            ControllerJoueurA.getPane().getBoundsInParent().getMinY() <= borderWidth - 15 ||
+                            ControllerJoueurA.getPane().getBoundsInParent().getMaxX() >= root.getWidth() - borderWidth  ||
+                            ControllerJoueurA.getPane().getBoundsInParent().getMaxY() >= root.getHeight() - borderWidth - 28) {
                         ControllerJoueurA.setPtsVie(-1);
                         //System.out.println("JoueurA a toucher la bordure");
                     }
-                    if( ControllerJoueurB.getPane().getBoundsInParent().getMinX() <= borderWidth  ||
-                            ControllerJoueurB.getPane().getBoundsInParent().getMinY() <= borderWidth  ||
+                    if( ControllerJoueurB.getPane().getBoundsInParent().getMinX() <= borderWidth - 15  ||
+                            ControllerJoueurB.getPane().getBoundsInParent().getMinY() <= borderWidth - 15 ||
                             ControllerJoueurB.getPane().getBoundsInParent().getMaxX() >= root.getWidth() - borderWidth ||
-                            ControllerJoueurB.getPane().getBoundsInParent().getMaxY() >= root.getHeight() - borderWidth) {
+                            ControllerJoueurB.getPane().getBoundsInParent().getMaxY() >= root.getHeight() - borderWidth - 28) {
                         ControllerJoueurB.setPtsVie(-1);
                         //System.out.println("JoueurB a toucher la bordure");
                     }
@@ -244,6 +244,7 @@ public class main extends Application {
         // Initialisation des joueurs avec des voitures par défaut
         JoueurA = Factory.CreateVehicule(VehiculeType.VOITURE);
         JoueurB = Factory.CreateVehicule(VehiculeType.VOITURE);
+
 
         // Création des menus déroulants
         MenuButton ma = new MenuButton("Joueur A");
@@ -313,6 +314,10 @@ public class main extends Application {
         playButton.setOnAction(event -> {
             Stage secondStage = new Stage();
 
+            directionJoueurA = -1;
+            directionJoueurB = -1;
+            RotateJoueurA = -1.0;
+            RotateJoueurB = -1.0;
             // Définition des propriétés du stage
             secondStage.setTitle("Deuxième fenêtre");
             secondStage.setWidth(1080);
