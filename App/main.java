@@ -63,15 +63,13 @@ public class main extends Application {
         root.getChildren().add(border);
         Scene scene = new Scene(new Pane(), 1080, 720);
 
-        ControllerObject CO = new ControllerObject(JoueurA);
-        //Invicibilite objInvicibilite = CO.objectInvicibilite(((Pane) scene.getRoot()));
+        ControllerObject ControllerObject = new ControllerObject(JoueurA, JoueurB);
 
         ControllerVehicule ControllerJoueurA = new ControllerVehicule(JoueurA, scene, Trainer);
         ControllerVehicule ControllerJoueurB = new ControllerVehicule(JoueurB, scene, Trainer);
 
         ControllerJoueurA.setCouleur(Orange);
         ControllerJoueurB.setCouleur(Rose);
-
 
         ((Pane) scene.getRoot()).getChildren().addAll(root, Trainer);
 
@@ -83,7 +81,6 @@ public class main extends Application {
 
         ControllerJoueurA.Spawn(scene);
         ControllerJoueurB.Spawn(scene);
-        //CO.placeObject(((Pane) scene.getRoot()),objInvicibilite);
 
         primaryStage.setResizable(false);
         primaryStage.setTitle("Jeu Tron");
@@ -91,14 +88,16 @@ public class main extends Application {
         Timeline timeline = new Timeline();
         double borderWidth = borderStroke.getWidths().getTop();
 
-
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.2), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                ControllerJoueurA.clear();
-                ControllerJoueurB.clear();
+        //TODO Fusionner les deux car la deuxième timelines désactive la première
+        ControllerObject.lastSpawn = System.currentTimeMillis();
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.2), event -> {
+            ControllerJoueurA.clear();
+            ControllerJoueurB.clear();
+            if (ControllerObject.isObjectSpawnable()){
+                ControllerObject.spawnUnObjet(scene);
             }
         }));
+
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
         int deplacement = 4;
@@ -201,6 +200,9 @@ public class main extends Application {
                 ControllerJoueurA.detectCollision(ControllerJoueurB.getVehiculeTcoord(), ControllerJoueurB.getVehiculeX(), ControllerJoueurB.getVehiculeY());
                 ControllerJoueurB.detectCollision(ControllerJoueurA.getVehiculeTcoord(), ControllerJoueurA.getVehiculeX(), ControllerJoueurA.getVehiculeY());
 
+                ControllerObject.isVehiculeOn(JoueurA, scene);
+                ControllerObject.isVehiculeOn(JoueurB, scene);
+
                 if (ControllerJoueurA.isDead()) {
                     System.out.println("Le joueur A à perdu");
                     this.stop();
@@ -222,16 +224,6 @@ public class main extends Application {
                     ControllerJoueurB.setPtsVie(-1);
                     //System.out.println("JoueurB a toucher la bordure");
                 }
-
-                /*if (objInvicibilite.getPane().intersects(ControllerJoueurA.getPane().getBoundsInParent())){
-                    System.out.println("objet Pris");
-
-                    try {
-                        CO.useObject(((Pane) scene.getRoot()),objInvicibilite);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }*/
             }
         };
 

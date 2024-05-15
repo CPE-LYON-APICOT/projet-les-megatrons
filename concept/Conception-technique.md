@@ -29,14 +29,19 @@ Dans ces documents, il ne s'agit pas de cacher la poussière sous le tapis, il f
 ## Objectif du projet
 
 [Décrivez ici l'objectif initial du projet, ne cherchez pas à le minorer si vous n'avez pas tout fini, décrivez ce que vous avez voulu faire]
+Nous avons créé un jeu du type Tron. Le jeu se présente sous la forme d'un 1vs1 ou chaque personne contrôle un véhicule.
+Le véhicule laisse une traînée derrière lui capable de tuer l'adversaire. Il faut donc éviter de toucher la traînée de l'adversaire pour ne pas perdre.
+Le jeu comporte plusieurs véhicules qui possèdent chacune des caractéristiques différentes.
+Des objets peuvent également spawn sur la map et octroyer différents bonus/malus aux joueurs.
 
 ## Résultat
-
 [Avez vous atteint votre objectif ?]
+Nous n'avons pas réussi à implémenter tous les objectifs. Les objets ne sont pas finis. Les véhicules sont finis, mais il n'y a pas de menu pour sélectionner sa voiture, il faut directement modifier le jeu.
 
 ### Améliorations possibles
 
 [Décrivez ici les améliorations que vous auriez pu apporter si vous aviez eu plus de temps]
+Implémenter différents modes de jeu et différents véhicules supplémentaires.
 
 ---
 # Partie "Développeur" (plus technique) :
@@ -45,6 +50,7 @@ Dans ces documents, il ne s'agit pas de cacher la poussière sous le tapis, il f
 ### Implémentations remarquables
 
 [Si pendant votre implémentation, vous trouvez que vous pouvez être particulièrment fiers d'une partie de votre code, décrivez là ici ; par exemple si vous avez généré une carte de manière procédurale, ou à l'aide d'un fichier]
+La gestion de la traînée a été longue à faire, il a fallu mettre en place un système qui gère les différents points du trait en supprimant ce qui ne sont plus utilisée, tous en gérant la direction du trait.
 
 ### Faiblesses du code
 
@@ -84,6 +90,9 @@ public class Factory {
 
 ]
 
+
+Nous avons utilisée des Fabricators pour simplifier la création des véhicules et des objets.
+
 ---
 # Partie pédagogique
 
@@ -92,6 +101,9 @@ public class Factory {
 
 [Par exemple, expliquez que vous auriez éprouvé des difficultés à gérer les collisions si vous n'aviez pas utilisé la POO, ou que vous avez pu facilement ajouter des fonctionnalités à votre jeu grâce à la POO
 Minimum 10 lignes (personnalisé en fonction de votre projet)]
+
+La POO nous à été utile pour les véhicules car ils possèdent des statistiques variables et des fonctionnalités différentes mais ils possèdent tous la même base.
+La POO à permis de simplifier grandement la création des véhicules. 
 
 ### Conclusion
 

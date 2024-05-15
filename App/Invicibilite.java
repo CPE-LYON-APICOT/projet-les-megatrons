@@ -2,13 +2,12 @@ package App;
 
 import javafx.scene.image.ImageView;
 
-public class Invicibilite extends  Object{
+public class Invicibilite extends Object{
 
     private int pvBonus;
 
-
-    public Invicibilite(ImageView sprite, double x, double y) {
-        super(sprite, x, y,objectType.INVICIBILITE,5);
+    public Invicibilite(String sprite, double x, double y) {
+        super(sprite, x, y,objectType.INVICIBILITE,5, System.currentTimeMillis());
         this.pvBonus = 9999;
 
     }

@@ -6,30 +6,20 @@ import javafx.scene.layout.Pane;
 
 
 public class Object {
-    private Pane pane;
-    private ImageView sprite;
+    protected Pane PanelImage;
+    private String sprite;
     private double x;
     private double y;
     private objectType type;
     private int duration;
-
-    public Object(ImageView sprite, double x, double y, objectType type, int duration) {
+    private long heureSpawn;
+    public Object(String LienImage, double x, double y, objectType type, int duration, long heureSpawn) {
         this.x = x;
         this.y = y;
         this.type = type;
         this.duration = duration;
-
-        // crée un objet ImageView à partir de l'image spécifiée
-        this.sprite = sprite;
-                //new ImageView(new Image(imagePath));
-
-        // crée un objet Pane pour contenir l'image
-        this.pane = new Pane();
-        this.pane.getChildren().add(sprite);
-
-        // définit la position de l'image dans le Pane
-        this.sprite.setX(x);
-        this.sprite.setY(y);
+        this.sprite = LienImage;
+        this.heureSpawn = heureSpawn;
     }
 
     public objectType getType() {
@@ -38,13 +28,6 @@ public class Object {
 
     public void setType(objectType type) {
         this.type = type;
-    }
-    public Pane getPane() {
-        return pane;
-    }
-
-    public ImageView getSprite() {
-        return sprite;
     }
 
     public double getX() {
@@ -57,12 +40,10 @@ public class Object {
 
     public void setX(double x) {
         this.x = x;
-        this.sprite.setX(x);
     }
 
     public void setY(double y) {
         this.y = y;
-        this.sprite.setY(y);
     }
     public int getDuration() {
         return duration;
@@ -70,6 +51,14 @@ public class Object {
 
     public void setDuration(int duree) {
         this.duration = duree;
+    }
+
+    public Pane getPanelImage() {
+        return PanelImage;
+    }
+
+    public void setPanelImage(Pane panelImage) {
+        PanelImage = panelImage;
     }
 }
 

@@ -3,13 +3,13 @@ package App;
 import javafx.scene.image.ImageView;
 
 public class VitesseBuilder {
-    private ImageView sprite;
+    private String sprite;
     private double x;
     private double y;
     private int duration;
     private int bonusVitesse;
 
-    public VitesseBuilder setSprite(ImageView sprite) {
+    public VitesseBuilder setSprite(String sprite) {
         this.sprite = sprite;
         return this;
     }

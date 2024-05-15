@@ -3,13 +3,13 @@ package App;
 import javafx.scene.image.ImageView;
 
 public class InvincibilityBuilder {
-    private ImageView sprite;
+    private String sprite;
     private double x;
     private double y;
     private int duration;
     private int pvBonus;
 
-    public InvincibilityBuilder setSprite(ImageView sprite) {
+    public InvincibilityBuilder setSprite(String sprite) {
         this.sprite = sprite;
         return this;
     }

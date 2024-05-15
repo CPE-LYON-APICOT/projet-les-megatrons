@@ -26,10 +26,9 @@ public abstract class Vehicule implements VehiculeInterface{
         this.SourcePNG = LienImage;
         this.VitesseTrainee = VitesseTrainee;
         this.vitesse = vitesse;
-
     }
 
-    public Vehicule() {
+    public Vehicule(){
 
     }
 
