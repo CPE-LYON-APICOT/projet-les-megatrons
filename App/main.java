@@ -43,218 +43,200 @@ public class main extends Application {
     private Vehicule JoueurB;
 
     public void game(Stage secondStage,Vehicule JoueurA, Vehicule JoueurB){
-        // Ici, vous pouvez ajouter le code pour lancer une nouvelle partie de jeu
-        System.out.println("New game started!");
-        directionJoueurA = -1;
-        directionJoueurB = -1;
-        RotateJoueurA = -1.0;
-        RotateJoueurB = -1.0;
+            System.out.println("Start la page");
 
-        System.out.println("Start la page");
+            //Bordure de la page
+            Rectangle border = new Rectangle(1080, 720);
+            border.setStroke(Color.web("#ff4467"));
+            border.setFill(Color.TRANSPARENT);
+            border.setStrokeWidth(10);
 
-        //Bordure de la page
-        Rectangle border = new Rectangle(1080, 720);
-        border.setStroke(Color.web("#ff4467"));
-        border.setFill(Color.TRANSPARENT);
-        border.setStrokeWidth(10);
+            BorderStroke borderStroke = new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, null, new BorderWidths(20));
 
-        BorderStroke borderStroke = new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, null, new BorderWidths(20));
+            //Image de fond
+            Image backgroundImage = new Image("file:assets/mer.jpg");
+            ImageView backgroundImageView = new ImageView(backgroundImage);
+            backgroundImageView.fitWidthProperty().bind(secondStage.widthProperty());
+            backgroundImageView.fitHeightProperty().bind(secondStage.heightProperty());
 
-        //Image de fond
-        Image backgroundImage = new Image("file:assets/mer.jpg");
-        ImageView backgroundImageView = new ImageView(backgroundImage);
-        backgroundImageView.fitWidthProperty().bind(secondStage.widthProperty());
-        backgroundImageView.fitHeightProperty().bind(secondStage.heightProperty());
+            Pane root = new Pane();
+            Pane Trainer = new Pane();
+            root.getChildren().add(backgroundImageView);
+            root.getChildren().add(border);
+            Scene scene = new Scene(new Pane(), 1080, 720);
 
+            ControllerObject ControllerObject = new ControllerObject(JoueurA, JoueurB);
 
+            ControllerVehicule ControllerJoueurA = new ControllerVehicule(JoueurA, scene, Trainer);
+            ControllerVehicule ControllerJoueurB = new ControllerVehicule(JoueurB, scene, Trainer);
 
-        Pane root = new Pane();
-        Pane Trainer = new Pane();
-        root.getChildren().add(backgroundImageView);
-        root.getChildren().add(border);
-        Scene scene = new Scene(new Pane(), 1080, 720);
+            ControllerJoueurA.setCouleur(Orange);
+            ControllerJoueurB.setCouleur(Rose);
 
-        ControllerObject CO = new ControllerObject(JoueurA);
-        Invicibilite objInvicibilite = CO.objectInvicibilite(((Pane) scene.getRoot()));
+            ((Pane) scene.getRoot()).getChildren().addAll(root, Trainer);
 
-        ControllerVehicule ControllerJoueurA = new ControllerVehicule(JoueurA, scene, Trainer);
-        ControllerVehicule ControllerJoueurB = new ControllerVehicule(JoueurB, scene, Trainer);
+            ControllerJoueurA.setvehiculeX(200.0);
+            ControllerJoueurA.setvehiculeY(360.0);
 
-        ControllerJoueurA.setCouleur(Orange);
-        ControllerJoueurB.setCouleur(Rose);
+            ControllerJoueurB.setvehiculeX(880.0);
+            ControllerJoueurB.setvehiculeY(360.0);
 
+            ControllerJoueurA.Spawn(scene);
+            ControllerJoueurB.Spawn(scene);
 
-        ((Pane) scene.getRoot()).getChildren().addAll(root, Trainer);
+            secondStage.setResizable(false);
+            secondStage.setTitle("Jeu Tron");
 
-        ControllerJoueurA.setvehiculeX(200.0);
-        ControllerJoueurA.setvehiculeY(360.0);
+            Timeline timeline = new Timeline();
+            double borderWidth = borderStroke.getWidths().getTop();
 
-        ControllerJoueurB.setvehiculeX(880.0);
-        ControllerJoueurB.setvehiculeY(360.0);
-
-        ControllerJoueurA.Spawn(scene);
-        ControllerJoueurB.Spawn(scene);
-        CO.placeObject(((Pane) ((Pane) scene.getRoot())),objInvicibilite);
-
-        secondStage.setResizable(false);
-        secondStage.setTitle("Tron");
-
-        Timeline timeline = new Timeline();
-        double borderWidth = borderStroke.getWidths().getTop();
-
-
-        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.2), new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
+            //TODO Fusionner les deux car la deuxième timelines désactive la première
+            ControllerObject.lastSpawn = System.currentTimeMillis();
+            timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.2), event -> {
                 ControllerJoueurA.clear();
                 ControllerJoueurB.clear();
-            }
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-        int deplacement = 4;
-        AnimationTimer JoueurTimer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                //System.out.println(direction);
-                scene.setOnKeyReleased(event -> {
-                    if (event.getCode() == KeyCode.O) {
-                        if (directionJoueurB != 1 && RotateJoueurB != 0.0) {
-                            directionJoueurB = 0;
-                            RotateJoueurB = 0.0;
-                            ControllerJoueurB.setRotate(0.0);
-                        }
+                if (ControllerObject.isObjectSpawnable()){
+                    ControllerObject.spawnUnObjet(scene);
+                }
+            }));
 
-                    } else if (event.getCode() == KeyCode.L) {
-                        if (directionJoueurB != 0 && RotateJoueurB != 1.0) {
-                            directionJoueurB = 1;
-                            RotateJoueurB = 1.0;
-                            ControllerJoueurB.setRotate(1.0);
-                        }
+            timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.play();
+            int deplacement = 4;
+            AnimationTimer JoueurTimer = new AnimationTimer() {
+                @Override
+                public void handle(long l) {
+                    //System.out.println(direction);
+                    scene.setOnKeyReleased(event -> {
+                        if (event.getCode() == KeyCode.O) {
+                            if (directionJoueurB != 1 && RotateJoueurB != 0.0) {
+                                directionJoueurB = 0;
+                                RotateJoueurB = 0.0;
+                                ControllerJoueurB.setRotate(0.0);
+                            }
 
-                    } else if (event.getCode() == KeyCode.K && RotateJoueurB != 2.0) {
-                        if (directionJoueurB != 3) {
-                            directionJoueurB = 2;
-                            RotateJoueurB = 2.0;
-                            ControllerJoueurB.setRotate(2.0);
-                        }
+                        } else if (event.getCode() == KeyCode.L) {
+                            if (directionJoueurB != 0 && RotateJoueurB != 1.0) {
+                                directionJoueurB = 1;
+                                RotateJoueurB = 1.0;
+                                ControllerJoueurB.setRotate(1.0);
+                            }
 
-                    } else if (event.getCode() == KeyCode.M && RotateJoueurB != 3.0) {
-                        if (directionJoueurB != 2) {
-                            directionJoueurB = 3;
-                            ControllerJoueurB.setRotate(3.0);
-                            RotateJoueurB = 3.0;
-                        }
+                        } else if (event.getCode() == KeyCode.K && RotateJoueurB != 2.0) {
+                            if (directionJoueurB != 3) {
+                                directionJoueurB = 2;
+                                RotateJoueurB = 2.0;
+                                ControllerJoueurB.setRotate(2.0);
+                            }
 
-                    } else if (event.getCode() == KeyCode.Z) {
-                        if (directionJoueurA != 1 && RotateJoueurA != 0.0) {
-                            directionJoueurA = 0;
-                            ControllerJoueurA.setRotate(0.0);
-                            RotateJoueurA = 1.0;
-                        }
+                        } else if (event.getCode() == KeyCode.M && RotateJoueurB != 3.0) {
+                            if (directionJoueurB != 2) {
+                                directionJoueurB = 3;
+                                ControllerJoueurB.setRotate(3.0);
+                                RotateJoueurB = 3.0;
+                            }
 
-                    } else if (event.getCode() == KeyCode.S) {
-                        if (directionJoueurA != 0 && RotateJoueurA != 1.0) {
-                            directionJoueurA = 1;
-                            ControllerJoueurA.setRotate(1.0);
-                            RotateJoueurA = 1.0;
-                        }
+                        } else if (event.getCode() == KeyCode.Z) {
+                            if (directionJoueurA != 1 && RotateJoueurA != 0.0) {
+                                directionJoueurA = 0;
+                                ControllerJoueurA.setRotate(0.0);
+                                RotateJoueurA = 1.0;
+                            }
 
-                    } else if (event.getCode() == KeyCode.Q) {
-                        if (directionJoueurA != 3 && RotateJoueurA != 2.0 ) {
-                            directionJoueurA = 2;
-                            ControllerJoueurA.setRotate(2.0);
-                            RotateJoueurA = 2.0;
+                        } else if (event.getCode() == KeyCode.S) {
+                            if (directionJoueurA != 0 && RotateJoueurA != 1.0) {
+                                directionJoueurA = 1;
+                                ControllerJoueurA.setRotate(1.0);
+                                RotateJoueurA = 1.0;
+                            }
 
-                        }
+                        } else if (event.getCode() == KeyCode.Q) {
+                            if (directionJoueurA != 3 && RotateJoueurA != 2.0 ) {
+                                directionJoueurA = 2;
+                                ControllerJoueurA.setRotate(2.0);
+                                RotateJoueurA = 2.0;
 
-                    } else if (event.getCode() == KeyCode.D) {
-                        if (directionJoueurA != 2 && RotateJoueurA != 3.0) {
-                            directionJoueurA = 3;
-                            ControllerJoueurA.setRotate(3.0);
-                            RotateJoueurA = 3.0;
+                            }
+
+                        } else if (event.getCode() == KeyCode.D) {
+                            if (directionJoueurA != 2 && RotateJoueurA != 3.0) {
+                                directionJoueurA = 3;
+                                ControllerJoueurA.setRotate(3.0);
+                                RotateJoueurA = 3.0;
+                            }
                         }
+                    });
+                    switch (directionJoueurB) {
+                        case 0:
+                            ControllerJoueurB.MoveY(-ControllerJoueurB.getVitesse());
+                            break;
+                        case 1:
+                            ControllerJoueurB.MoveY(ControllerJoueurB.getVitesse());
+                            break;
+                        case 2:
+                            ControllerJoueurB.MoveX(-ControllerJoueurB.getVitesse());
+                            break;
+                        case 3:
+                            ControllerJoueurB.MoveX(ControllerJoueurB.getVitesse());
+                            break;
                     }
-                });
-                switch (directionJoueurB) {
-                    case 0:
-                        ControllerJoueurB.MoveY(-ControllerJoueurB.getVitesse());
-                        break;
-                    case 1:
-                        ControllerJoueurB.MoveY(ControllerJoueurB.getVitesse());
-                        break;
-                    case 2:
-                        ControllerJoueurB.MoveX(-ControllerJoueurB.getVitesse());
-                        break;
-                    case 3:
-                        ControllerJoueurB.MoveX(ControllerJoueurB.getVitesse());
-                        break;
-                }
 
-                switch (directionJoueurA) {
-                    case 0:
-                        ControllerJoueurA.MoveY(-ControllerJoueurA.getVitesse());
-                        break;
-                    case 1:
-                        ControllerJoueurA.MoveY(ControllerJoueurA.getVitesse());
-                        break;
-                    case 2:
-                        ControllerJoueurA.MoveX(-ControllerJoueurA.getVitesse());
-                        break;
-                    case 3:
-                        ControllerJoueurA.MoveX(ControllerJoueurA.getVitesse());
-                        break;
-                }
+                    switch (directionJoueurA) {
+                        case 0:
+                            ControllerJoueurA.MoveY(-ControllerJoueurA.getVitesse());
+                            break;
+                        case 1:
+                            ControllerJoueurA.MoveY(ControllerJoueurA.getVitesse());
+                            break;
+                        case 2:
+                            ControllerJoueurA.MoveX(-ControllerJoueurA.getVitesse());
+                            break;
+                        case 3:
+                            ControllerJoueurA.MoveX(ControllerJoueurA.getVitesse());
+                            break;
+                    }
 
-                ControllerJoueurA.drawLine();
-                ControllerJoueurB.drawLine();
+                    ControllerJoueurA.drawLine();
+                    ControllerJoueurB.drawLine();
 
-                ControllerJoueurA.detectCollision(ControllerJoueurB.getVehiculeTcoord(), ControllerJoueurB.getVehiculeX(), ControllerJoueurB.getVehiculeY());
-                ControllerJoueurB.detectCollision(ControllerJoueurA.getVehiculeTcoord(), ControllerJoueurA.getVehiculeX(), ControllerJoueurA.getVehiculeY());
+                    ControllerJoueurA.detectCollision(ControllerJoueurB.getVehiculeTcoord(), ControllerJoueurB.getVehiculeX(), ControllerJoueurB.getVehiculeY());
+                    ControllerJoueurB.detectCollision(ControllerJoueurA.getVehiculeTcoord(), ControllerJoueurA.getVehiculeX(), ControllerJoueurA.getVehiculeY());
 
-                if (ControllerJoueurA.isDead()) {
-                    System.out.println("Le joueur A à perdu");
-                    this.stop();
-                } else if (ControllerJoueurB.isDead()) {
-                    System.out.println("Le joueur B à perdu");
-                    this.stop();
-                }
-                if( ControllerJoueurA.getPane().getBoundsInParent().getMinX() <= borderWidth  ||
-                        ControllerJoueurA.getPane().getBoundsInParent().getMinY() <= borderWidth  ||
-                        ControllerJoueurA.getPane().getBoundsInParent().getMaxX() >= root.getWidth() - borderWidth ||
-                        ControllerJoueurA.getPane().getBoundsInParent().getMaxY() >= root.getHeight() - borderWidth) {
-                    ControllerJoueurA.setPtsVie(-1);
-                    System.out.println("JoueurA a toucher la bordure");
-                }
-                if( ControllerJoueurB.getPane().getBoundsInParent().getMinX() <= borderWidth  ||
-                        ControllerJoueurB.getPane().getBoundsInParent().getMinY() <= borderWidth  ||
-                        ControllerJoueurB.getPane().getBoundsInParent().getMaxX() >= root.getWidth() - borderWidth ||
-                        ControllerJoueurB.getPane().getBoundsInParent().getMaxY() >= root.getHeight() - borderWidth) {
-                    ControllerJoueurB.setPtsVie(-1);
-                    //System.out.println("JoueurB a toucher la bordure");
-                }
+                    ControllerObject.isVehiculeOn(JoueurA, scene);
+                    ControllerObject.isVehiculeOn(JoueurB, scene);
 
-                if (objInvicibilite.getPane().getBoundsInParent().intersects(ControllerJoueurA.getPane().getBoundsInParent())){
-                    System.out.println("objet Pris");
-
-                    try {
-                        CO.useObject(((Pane) scene.getRoot()),objInvicibilite);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                    if (ControllerJoueurA.isDead()) {
+                        System.out.println("Le joueur A à perdu");
+                        this.stop();
+                    } else if (ControllerJoueurB.isDead()) {
+                        System.out.println("Le joueur B à perdu");
+                        this.stop();
+                    }
+                    if( ControllerJoueurA.getPane().getBoundsInParent().getMinX() <= borderWidth  ||
+                            ControllerJoueurA.getPane().getBoundsInParent().getMinY() <= borderWidth  ||
+                            ControllerJoueurA.getPane().getBoundsInParent().getMaxX() >= root.getWidth() - borderWidth ||
+                            ControllerJoueurA.getPane().getBoundsInParent().getMaxY() >= root.getHeight() - borderWidth) {
+                        ControllerJoueurA.setPtsVie(-1);
+                        //System.out.println("JoueurA a toucher la bordure");
+                    }
+                    if( ControllerJoueurB.getPane().getBoundsInParent().getMinX() <= borderWidth  ||
+                            ControllerJoueurB.getPane().getBoundsInParent().getMinY() <= borderWidth  ||
+                            ControllerJoueurB.getPane().getBoundsInParent().getMaxX() >= root.getWidth() - borderWidth ||
+                            ControllerJoueurB.getPane().getBoundsInParent().getMaxY() >= root.getHeight() - borderWidth) {
+                        ControllerJoueurB.setPtsVie(-1);
+                        //System.out.println("JoueurB a toucher la bordure");
                     }
                 }
-            }
-        };
+            };
 
-        //playMusic();
-        JoueurTimer.start();
-        secondStage.setScene(scene);
-        secondStage.show();
-
-    }
+            //playMusic();
+            JoueurTimer.start();
+            secondStage.setScene(scene);
+            secondStage.show();
+        }
 
 
-    @Override
+        @Override
     public void start(Stage primaryStage) {
         // Création de l'usine de véhicules
         VehiculeFactory Factory = new VehiculeFactory();
@@ -348,7 +330,7 @@ public class main extends Application {
 
         // Création de la scène principale
         Scene scene = new Scene(rootMenu, 420, 200);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+
         primaryStage.setScene(scene);
         primaryStage.setTitle("My Game");
         primaryStage.show();
