@@ -62,7 +62,7 @@ public class ControllerObject {
     }
 
     public boolean isObjectSpawnable() {
-        if (System.currentTimeMillis() - this.lastSpawn > 20000){
+        if (System.currentTimeMillis() - this.lastSpawn > 5000){
             this.lastSpawn = System.currentTimeMillis();
             return true;
         }

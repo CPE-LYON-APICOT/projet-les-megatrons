@@ -1,10 +1,9 @@
 package App;
 
 public class InvincibiliteDecorator extends VehiculeDecorator implements IPointsDeVie {
-    protected IPointsDeVie multiplicateur;
 
     public InvincibiliteDecorator(Vehicule vehicule) {
-        this.multiplicateur = vehicule.multiplicateurDegat;
+        this.baseProvider = vehicule.multiplicateurDegat;
     }
 
     @Override

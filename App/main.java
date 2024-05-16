@@ -381,5 +381,17 @@ public class main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
+    public void loose(Scene scene, Integer Looser){
+        String stringFinal;
+        switch(Looser){
+            case 1:
+                stringFinal = "Le Joueur 2 à gagné !!!";
+                break;
+            case 2:
+                stringFinal = "Le joueur 1 à gagné !!!";
+                break;
+        }
+    }
 }
 
