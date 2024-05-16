@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
@@ -21,6 +23,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.*;
 
+import java.nio.file.Paths;
 
 
 public class main extends Application {
@@ -34,7 +37,16 @@ public class main extends Application {
     private Vehicule JoueurA;
     private Vehicule JoueurB;
 
+    MediaPlayer mediaPlayer;
+    public void music(){
+        String s = "App/deathByGlamour.mp3";
+        Media h = new Media(Paths.get(s).toUri().toString());
+        mediaPlayer = new MediaPlayer(h);
+        mediaPlayer.play();
+
+    }
     public void game(Stage secondStage,Vehicule JoueurA, Vehicule JoueurB){
+            music();
             System.out.println("Start la page");
 
             //Bordure de la page
