@@ -6,7 +6,7 @@ public class VitesseDecorator extends VehiculeDecorator implements IVitesse {
 
 
     public VitesseDecorator(Vehicule vehicule) {
-        baseProvider =vehicule.vitesseProvider;
+        baseProvider = vehicule.vitesseProvider;
     }
 
 

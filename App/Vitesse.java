@@ -9,7 +9,7 @@ public class Vitesse  extends Object{
     public Vitesse(String sprite, double x, double y) {
         super(sprite, x, y, objectType.VITESSE,5, System.currentTimeMillis());
 
-        this.Bonusvitesse = 50;
+        this.Bonusvitesse = 10;
     }
 
     public int getBonusvitesse() {
