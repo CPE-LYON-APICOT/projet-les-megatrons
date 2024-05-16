@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 
@@ -26,22 +27,29 @@ public class ControllerVehicule implements IVitesse {
             for (int i = 0; i < Listes.size() - 1; i++) {
                 List<Double> liste = Listes.get(i);
                 Line line = new Line(liste.get(1), liste.get(2), liste.get(3), liste.get(4));
-                if (line.getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())) {
+                if (vehicule.getPanelImage().getBoundsInParent().intersects(line.getBoundsInParent())) {
                     vehicule.retirerPtsVie(1);
-                    System.out.println("J'ai pris des dégats");
                 }
             }
             Line line = new Line(Listes.get(Listes.size() - 1).get(1), Listes.get(Listes.size() - 1).get(2), vehiculeX, vehiculeY);
-            if (line.getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())) {
+            if (vehicule.getPanelImage().getBoundsInParent().intersects(line.getBoundsInParent())) {
                 vehicule.retirerPtsVie(1);
-                System.out.println("J'ai pris des dégats");
             }
         }else {
             Line line = new Line(Listes.get(Listes.size() - 1).get(1), Listes.get(Listes.size() - 1).get(2), vehiculeX, vehiculeY);
-            if (line.getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())) {
+            //vehicule.getPanelImage().setStyle("-fx-background-color: red; -fx-border-color: navy; -fx-border-width: 2px;");
+
+            if (vehicule.getPanelImage().getBoundsInParent().intersects(line.getBoundsInParent())) {
                 vehicule.retirerPtsVie(1);
-                System.out.println("J'ai pris des dégats");
             }
+        }
+    }
+
+    public boolean detectCollisionBetwCar(Vehicule vehicule){
+        if (this.vehicule.getPanelImage().getBoundsInParent().intersects(vehicule.getPanelImage().getBoundsInParent())){
+            return true;
+        }else {
+            return false;
         }
     }
 
@@ -76,6 +84,12 @@ public class ControllerVehicule implements IVitesse {
                     line.setStroke(Color.web(Couleur));
                     line.setStrokeWidth(vehicule.getLargeur());
                     panel.getChildren().add(line);
+
+                    /*Rectangle hitbox = new Rectangle(vehicule.Tcoords.get(i).get(1), vehicule.Tcoords.get(i).get(2), vehicule.Tcoords.get(i).get(3), vehicule.Tcoords.get(i).get(4));
+                    hitbox.setFill(Color.TRANSPARENT);
+                    hitbox.setStroke(Color.RED);
+
+                    panel.getChildren().add(hitbox);*/
                 }
             }
             if (vehicule.Tcoords.size() > 0) {
@@ -85,6 +99,14 @@ public class ControllerVehicule implements IVitesse {
                 line.setStroke(Color.web(Couleur));
                 line.setStrokeWidth(vehicule.getLargeur());
                 panel.getChildren().add(line);
+
+                /*Rectangle hitbox = new Rectangle(vehicule.Tcoords.get(vehicule.Tcoords.size() - 1).get(1),
+                        vehicule.Tcoords.get(vehicule.Tcoords.size() - 1).get(2), vehicule.getPositionTrainerX(),
+                        vehicule.getPositionTrainerY());
+                hitbox.setFill(Color.TRANSPARENT);
+                hitbox.setStroke(Color.RED);
+
+                panel.getChildren().add(hitbox);*/
             }
             syncTList();
         }
@@ -104,7 +126,6 @@ public class ControllerVehicule implements IVitesse {
                 vehicule.Tcoords.get(0).set(2, vehicule.Tcoords.get(0).get(2) - vehicule.getVitesseTrainee());
                 if (vehicule.Tcoords.get(0).get(2) - vehicule.Tcoords.get(0).get(4) < 0) {
                     vehicule.Tcoords.remove(0);
-                    //System.out.println("J'ai remove A");
                 }
             } else if (v == 1.0) {
                 vehicule.Tcoords.get(0).set(2, vehicule.Tcoords.get(0).get(2) + vehicule.getVitesseTrainee());
@@ -115,7 +136,6 @@ public class ControllerVehicule implements IVitesse {
                 vehicule.Tcoords.get(0).set(1, vehicule.Tcoords.get(0).get(1) - vehicule.getVitesseTrainee());
                 if (vehicule.Tcoords.get(0).get(1) - vehicule.Tcoords.get(0).get(3) < 0) {
                     vehicule.Tcoords.remove(0);
-
                 }
             } else if (v == 3.0) {
                 vehicule.Tcoords.get(0).set(1, vehicule.Tcoords.get(0).get(1) + vehicule.getVitesseTrainee());
@@ -159,7 +179,7 @@ public class ControllerVehicule implements IVitesse {
         vehicule.PanelImage.setPrefWidth(vehicule.getWidth());
         vehicule.PanelImage.setLayoutX(vehicule.PositionX);
         vehicule.PanelImage.setLayoutY(vehicule.PositionY);
-        //vehicule.PanelImage.setStyle("-fx-background-color: #ffffff69; -fx-border-radius: 12px;");
+        vehicule.PanelImage.setStyle("-fx-background-color: #ffffff69; -fx-border-radius: 12px;");
         ((Pane) scene.getRoot()).getChildren().add(vehicule.PanelImage);
         vehicule.genCoord();
     }

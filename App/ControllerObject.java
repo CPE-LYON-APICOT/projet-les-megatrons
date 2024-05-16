@@ -7,15 +7,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 import java.util.*;
-import java.lang.Thread;
-
 
 public class ControllerObject {
     protected List<Object> Objects = new ArrayList<Object>();
-
-    //protected List<Vehicule> VehiculesBase = new ArrayList<Vehicule>();
     protected List<Vehicule> Vehicules = new ArrayList<Vehicule>();
-
 
     protected long lastSpawn;
 
@@ -23,7 +18,6 @@ public class ControllerObject {
         Vehicules.add(Joueur1);
         Vehicules.add(Joueur2);
     }
-
 
     public void spawnUnObjet(Scene scene) {
         Random random = new Random();
@@ -44,7 +38,6 @@ public class ControllerObject {
                 System.out.println("Tirer 1");
                 break;
         };
-
         Image image = new Image(LienImage);
         ImageView objet = new ImageView(image);
         objet.setFitHeight(50);
@@ -62,25 +55,26 @@ public class ControllerObject {
     }
 
     public boolean isObjectSpawnable() {
-        if (System.currentTimeMillis() - this.lastSpawn > 5000){
+        if (System.currentTimeMillis() - this.lastSpawn > 15000){
             this.lastSpawn = System.currentTimeMillis();
             return true;
         }
         return false;
     }
 
-    public void isVehiculeOn(Vehicule vehicule, Scene scene){
+    public boolean isVehiculeOn(Vehicule vehicule, Scene scene){
         if (Objects.isEmpty()){
         }else{
             List<Integer> intToSupp = new ArrayList<Integer>();
             for (Object obj: Objects) {
                 Bounds boundObject = obj.getPanelImage().getBoundsInParent();
                 Bounds boundVehicule = vehicule.getPanelImage().getBoundsInParent();
-                if (boundVehicule.intersects(boundObject)){
-                    System.out.println("Je touche un bonus");
+                if (boundVehicule.intersects(boundObject) && obj.isUse() == false){
+                    obj.setUse(true);
                     applyObject(vehicule, obj);
                     ((Pane) scene.getRoot()).getChildren().remove(obj.PanelImage);
                     intToSupp.add(Objects.indexOf(obj));
+                    return true;
                 }
             }
             if (intToSupp.isEmpty() == false){
@@ -89,44 +83,40 @@ public class ControllerObject {
                 }
             }
         }
+        return false;
     }
 
 
     public Vehicule applyObject(Vehicule vehicule, Object object) {
         Timer timer = new Timer();
-        long delay = 5000;
+        long delaySpeed = 5000;
+        long delayInvincibility = 3000;
 
         switch (object.getType()) {
+
             case INVICIBILITE:
                 Invicibilite invicibilite = (Invicibilite) object;
                 InvincibiliteDecorator invicibiliteDecorator = new InvincibiliteDecorator(vehicule);
-                System.out.println("J'ai pris un bonus d'invincibilité ");
                 vehicule.multiplicateurDegat = new InvincibiliteDecorator(vehicule);
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
                         vehicule.multiplicateurDegat = (IPointsDeVie) invicibiliteDecorator.baseProvider;
                     }
-                }, delay);
-
+                }, delayInvincibility);
                 break;
+
             case VITESSE:
                 VitesseDecorator vitesseDecorator = new VitesseDecorator(vehicule);
-                System.out.println("J'ai pris un bonus de vitesse");
-                System.out.println(vehicule.getVitesse());
                 vehicule.setVitesseProvider(vitesseDecorator);
-
-                // Schedule a task to be executed after delay
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        // Your callback function
-
                         vehicule.setVitesseProvider(vitesseDecorator.getBasedProvider());
                     }
-                }, delay);
-                System.out.println(vehicule.getVitesse());
+                }, delaySpeed);
                 break;
+
             default:
                 break;
         }

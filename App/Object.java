@@ -13,6 +13,16 @@ public class Object {
     private objectType type;
     private int duration;
     private long heureSpawn;
+
+    public boolean isUse() {
+        return isUse;
+    }
+
+    public void setUse(boolean use) {
+        isUse = use;
+    }
+
+    private boolean isUse = false;
     public Object(String LienImage, double x, double y, objectType type, int duration, long heureSpawn) {
         this.x = x;
         this.y = y;
@@ -60,5 +70,6 @@ public class Object {
     public void setPanelImage(Pane panelImage) {
         PanelImage = panelImage;
     }
+
 }
 
