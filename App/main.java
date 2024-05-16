@@ -41,16 +41,27 @@ public class main extends Application {
     private Vehicule JoueurB;
 
     MediaPlayer mediaPlayer;
-    public void music(){
-        String s = "App/deathByGlamour.mp3";
+
+    public void musicMenu(){
+        String s = "assets/menuOST.mp3";
         Media h = new Media(Paths.get(s).toUri().toString());
         mediaPlayer = new MediaPlayer(h);
         mediaPlayer.play();
-
     }
+
+    public void musicStop(){
+        mediaPlayer.stop();
+    }
+
+    public void musicGame(){
+        String s = "assets/gameOST.mp3";
+        Media h = new Media(Paths.get(s).toUri().toString());
+        mediaPlayer = new MediaPlayer(h);
+        mediaPlayer.play();
+    }
+
     public void game(Stage secondStage,Vehicule JoueurA, Vehicule JoueurB){
-            music();
-            System.out.println("Start la page");
+            musicGame();
 
             //Bordure de la page
             Rectangle border = new Rectangle(1067, 683);
@@ -236,7 +247,7 @@ public class main extends Application {
                 }
             };
 
-            //playMusic();
+            musicStop();
             JoueurTimer.start();
             secondStage.setScene(scene);
             secondStage.show();
@@ -247,6 +258,8 @@ public class main extends Application {
     public void start(Stage primaryStage) {
         // Création de l'usine de véhicules
         VehiculeFactory Factory = new VehiculeFactory();
+
+        musicMenu();
 
         // Initialisation des joueurs avec des voitures par défaut
         JoueurA = Factory.CreateVehicule(VehiculeType.VOITURE);
@@ -393,6 +406,7 @@ public class main extends Application {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Mega-Tron");
         primaryStage.show();
+        musicStop();
     }
 
     public static void main(String[] args) {
