@@ -59,7 +59,8 @@ La gestion de la traînée a été longue à faire, il a fallu mettre en place u
 
 ### Faiblesses du code
 
-[C'est ici que vous me dites ce que vous savez que vous avez mal fait, expliquez pourquoi vous avez fait ce choix (manque de temps, manque de compétence, trop pénible à faire, etc.)]
+Il y a beaucoup trop de ligne de code dans le menu. Nous n'avons pas eu le temps de divisée notre code en plusieurs pages donc nous avons fait le choix de tous laisser.
+Nous aurions pu diviser en plusieurs parties la musique, le menu et la gestion des véhicules.
 
 ### Difficultés rencontrées
 
@@ -97,10 +98,14 @@ public class VehiculeFactory {
 
 ]
 
-
-Nous avons utilisée des Fabricators pour simplifier la création des véhicules et des objets.
-
 ---
+
+#### 2. Interface & decorator
+Les interfaces nous ont permis de changer les caractéristiques des véhicules lorsqu'ils prennent un objet de manière à pouvoir facilement les empiler ou les retirer.
+
+#### 3. Builder
+Les builders nous ont permis de créer des objets pour les bonus en rendant le code pls simple à maintenir et à évoluer.
+
 # Partie pédagogique
 
 
@@ -123,3 +128,5 @@ ce qui a facilité la gestion des collisions et des interactions entre les objet
 
 
 ### Conclusion
+
+Ce projet nous a permis de mieux comprendre comment fonctionnent les design pattern et les interfaces.
