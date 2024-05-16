@@ -1,8 +1,8 @@
 
 # Retro-conception
 
-**Binome 1 : [Nom Prénom]**
-**Binome 2 : [Nom Prénom]**
+**Binome 1 : Antoine Chalançon
+**Binome 2 : Guillaume Carlin
 
 Complétez ce document pour décrire votre projet, les difficultés rencontrées, les design patterns mis en oeuvre, les améliorations possibles, et en quoi la POO vous a été utile.
 
@@ -28,20 +28,26 @@ Dans ces documents, il ne s'agit pas de cacher la poussière sous le tapis, il f
 
 ## Objectif du projet
 
-[Décrivez ici l'objectif initial du projet, ne cherchez pas à le minorer si vous n'avez pas tout fini, décrivez ce que vous avez voulu faire]
 Nous avons créé un jeu du type Tron. Le jeu se présente sous la forme d'un 1vs1 ou chaque personne contrôle un véhicule.
 Le véhicule laisse une traînée derrière lui capable de tuer l'adversaire. Il faut donc éviter de toucher la traînée de l'adversaire pour ne pas perdre.
 Le jeu comporte plusieurs véhicules qui possèdent chacune des caractéristiques différentes.
 Des objets peuvent également spawn sur la map et octroyer différents bonus/malus aux joueurs.
+Il existe differente carte avec des structures pouvant donner des nouvelle oppportunité de gameplay au joueurs
 
 ## Résultat
-[Avez vous atteint votre objectif ?]
-Nous n'avons pas réussi à implémenter tous les objectifs. Les objets ne sont pas finis. Les véhicules sont finis, mais il n'y a pas de menu pour sélectionner sa voiture, il faut directement modifier le jeu.
+
+Nous avons préféré nous concentrer sur les véhicules, les objets et les trainés, car ce sont les éléments principaux
+du gameplay pour une première partie cepandant, nous n'avons pas pu finaliser les diffèrentes carte du jeu, mais nous
+pourront les implémenter dans de future mise à jour.
+Nous avons aussi pu réaliser un menu fonctionnel qui permet de choisir le véhicule que le joueur souhaite utiliser,
+ainsi que l'ajout d'une musique dans le menu et d'une autre pendant la partie
 
 ### Améliorations possibles
 
-[Décrivez ici les améliorations que vous auriez pu apporter si vous aviez eu plus de temps]
 Implémenter différents modes de jeu et différents véhicules supplémentaires.
+Implémenter de nouveaux bonus
+Implementer des structures faisant partie de la carte
+Implémenter differentes cartes
 
 ---
 # Partie "Développeur" (plus technique) :
@@ -49,8 +55,7 @@ Implémenter différents modes de jeu et différents véhicules supplémentaires
 
 ### Implémentations remarquables
 
-[Si pendant votre implémentation, vous trouvez que vous pouvez être particulièrment fiers d'une partie de votre code, décrivez là ici ; par exemple si vous avez généré une carte de manière procédurale, ou à l'aide d'un fichier]
-La gestion de la traînée a été longue à faire, il a fallu mettre en place un système qui gère les différents points du trait en supprimant ce qui ne sont plus utilisée, tous en gérant la direction du trait.
+La gestion de la traînée a été longue à faire, il a fallu mettre en place un système qui gère les différents points du trait en supprimant ce qui ne sont plus utilisée, tout en gérant la direction du trait.
 
 ### Faiblesses du code
 
@@ -58,31 +63,33 @@ La gestion de la traînée a été longue à faire, il a fallu mettre en place u
 
 ### Difficultés rencontrées
 
-#### 1. [Génération dynamique des ... pour ...]
+#### 1. Gestion des mouvements véhicules sur les changements de direction.
 
-[Expliquez ici la difficulté rencontrée et comment vous l'avez contournée]
-
-#### 2. [Gestion des collisions]
-
-[Exemple : Nous n'avons pas réussi à gérer les collisions, PARCE QUE, mes objets n'héritaient pas d'une classe commune, car nos objets héirtaient de ... et nos personnages de ...]
+Notre véhicule faisait à chaque changement de direction un déplacement du sprite et de la hitbox du véhicule
+qui n’était pas cohérent avec le mouvement que nous voulions. 
+Nous avons pu contourner ce problème via l’utilisation d’un pane.
 
 
 ### *Design Patterns* mis en oeuvre
 
 #### 1. [Factory]
-[Décrivez ici brièvement le design pattern utilisé et pourquoi]
-[Ajouter éventuellement des exemples de code pour montrer l'élégence de votre solution, pour cela vous pouvez écrire en Markdown votre code ainsi :
+
+
+Une factory a ici été utilisé pour pouvoir créer des vehicule de manière simple 
 
 <pre>
 ```java
-public class Factory {
-    public static Object createObject(String type) {
-        if (type.equals("type1")) {
-            return new Type1();
-        } else if (type.equals("type2")) {
-            return new Type2();
-        }
-        return null;
+public class VehiculeFactory {
+    public VehiculeFactory() {
+    }
+
+    public Vehicule CreateVehicule(VehiculeType vehicule) {
+        return switch (vehicule) {
+            case VehiculeType.MOTO -> new Moto(350, 250, 10, 1, "file:assets/LowShip.png", 6.0,5.0);
+            case VehiculeType.VOITURE -> new Voiture(350, 250, 10, 1, "file:assets/MiddleShip.png", 5.0, 3.0);
+            case VehiculeType.CAMION -> new Camion(350, 250, 10, 1, "file:assets/BigShip.png", 4.0, 1.0);
+            default -> null;
+        };
     }
 }
 ```
@@ -99,12 +106,20 @@ Nous avons utilisée des Fabricators pour simplifier la création des véhicules
 
 ### En quoi la POO vous a été utile
 
-[Par exemple, expliquez que vous auriez éprouvé des difficultés à gérer les collisions si vous n'aviez pas utilisé la POO, ou que vous avez pu facilement ajouter des fonctionnalités à votre jeu grâce à la POO
-Minimum 10 lignes (personnalisé en fonction de votre projet)]
 
-La POO nous à été utile pour les véhicules car ils possèdent des statistiques variables et des fonctionnalités différentes mais ils possèdent tous la même base.
-La POO à permis de simplifier grandement la création des véhicules. 
+La POO nous a permis de regrouper les caractéristiques communes de nos diffèrents véhicules en une classe.
+Cette classe nous permet de rapidement concevoir des nouveaux véhicules qui sont facilement intégrable dans notre jeu.
+La POO nous a aussi permis d’utiliser des design pattern qui nous ont été utile pour créer et ajouter des effets a nos 
+véhicules sans pour autant modifier leur structure sous-jacente.
+
+Pour la gestion des objets, la POO a permis de stocker plus simplement les objets et les informations 
+qui nous sont importantes comme leurs effets, les horaires de spawn, etc ...
+Sans la POO, toutes ces informations auraient dû être stockées dans des listes de listes 
+ce qui aurait grandement complexifié le code et la manière d'accès à ces informations.
+Cela nous a aussi permis de définir des attributs et des méthodes spécifiques à chaque type d'objet,
+ce qui a facilité la gestion des collisions et des interactions entre les objets et les véhicules.
+
+
+
 
 ### Conclusion
-
-[Décrivez ici si vous avez compris un concept particulier que vous n'aviez pas compris en cours, inversement si vous pensiez qu'il était possible de faire qqchose mais que cela ne s'est pas passé comme prévu]
