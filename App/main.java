@@ -11,6 +11,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -24,6 +26,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.*;
 
+import java.nio.file.Paths;
 
 
 public class main extends Application {
@@ -37,7 +40,16 @@ public class main extends Application {
     private Vehicule JoueurA;
     private Vehicule JoueurB;
 
+    MediaPlayer mediaPlayer;
+    public void music(){
+        String s = "App/deathByGlamour.mp3";
+        Media h = new Media(Paths.get(s).toUri().toString());
+        mediaPlayer = new MediaPlayer(h);
+        mediaPlayer.play();
+
+    }
     public void game(Stage secondStage,Vehicule JoueurA, Vehicule JoueurB){
+            music();
             System.out.println("Start la page");
 
             //Bordure de la page
@@ -85,6 +97,7 @@ public class main extends Application {
             Timeline timeline = new Timeline();
             double borderWidth = borderStroke.getWidths().getTop();
 
+            //TODO Fusionner les deux car la deuxième timelines désactive la première
             ControllerObject.lastSpawn = System.currentTimeMillis();
             timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.2), event -> {
                 ControllerJoueurA.clear();
