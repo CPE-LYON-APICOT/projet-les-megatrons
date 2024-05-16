@@ -11,6 +11,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
@@ -82,7 +85,6 @@ public class main extends Application {
             Timeline timeline = new Timeline();
             double borderWidth = borderStroke.getWidths().getTop();
 
-            //TODO Fusionner les deux car la deuxième timelines désactive la première
             ControllerObject.lastSpawn = System.currentTimeMillis();
             timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(0.2), event -> {
                 ControllerJoueurA.clear();
@@ -196,10 +198,12 @@ public class main extends Application {
                     ControllerObject.isVehiculeOn(JoueurB, scene);
 
                     if (ControllerJoueurA.isDead()) {
-                        System.out.println("Le joueur A à perdu");
+                        loose(root, 1);
+                        timeline.stop();
                         this.stop();
                     } else if (ControllerJoueurB.isDead()) {
-                        System.out.println("Le joueur B à perdu");
+                        loose(root, 2);
+                        timeline.stop();
                         this.stop();
                     }
                     if( ControllerJoueurA.getPane().getBoundsInParent().getMinX() <= borderWidth - 15 ||
@@ -382,16 +386,25 @@ public class main extends Application {
         launch(args);
     }
 
-    public void loose(Scene scene, Integer Looser){
-        String stringFinal;
+    public void loose(Pane root, Integer Looser){
+        Text stringFinal = new Text();
+        stringFinal.setFont(Font.font("Verdana", FontWeight.BOLD, 70));
+        stringFinal.setFill(Color.WHITE);
+
+        double centerX = 100 - (stringFinal.getLayoutBounds().getWidth() / 2);
+        double centerY = 360 - (stringFinal.getLayoutBounds().getHeight() / 2);
+        stringFinal.setLayoutX(centerX);
+        stringFinal.setLayoutY(centerY);
+
         switch(Looser){
             case 1:
-                stringFinal = "Le Joueur 2 à gagné !!!";
+                stringFinal.setText("Le joueur 2 à gagné !!!");
                 break;
             case 2:
-                stringFinal = "Le joueur 1 à gagné !!!";
+                stringFinal.setText("Le joueur 1 à gagné !!!");
                 break;
         }
+        root.getChildren().add(stringFinal);
     }
 }
 
